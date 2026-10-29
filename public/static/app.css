@@ -1,0 +1,68 @@
+/* Rekod Boss — tambahan gaya untuk app produksi (login OTP, semakan migrasi, tetapan). */
+
+/* ---- login OTP ---- */
+.v2-login .box{margin-top:96px}
+.v2-login .cta[disabled]{opacity:.6}
+.v2-login .otpbox{display:flex;gap:8px;justify-content:center;margin:2px 0 6px}
+.v2-login .otpbox input{width:46px;height:54px;text-align:center;font-size:20px;font-weight:800;
+  border-radius:14px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.18);color:#fff;
+  font-variant-numeric:tabular-nums}
+.v2-login .otpbox input:focus{outline:2px solid #c46ad6;outline-offset:1px;border-color:transparent}
+.v2-login .linkbtn{display:block;width:100%;text-align:center;font-size:13px;font-weight:600;
+  color:rgba(255,255,255,.72);margin-top:14px;text-decoration:underline}
+.v2-login .devcode{margin-top:12px;background:rgba(255,255,255,.12);border:1px dashed rgba(255,255,255,.3);
+  border-radius:14px;padding:11px 13px;font-size:12.5px;color:#fff;line-height:1.5}
+.v2-login .devcode b{font-size:18px;letter-spacing:.16em;display:block;margin-top:3px;font-variant-numeric:tabular-nums}
+.v2-login .who{margin-top:22px;text-align:center;font-size:12px;opacity:.55}
+.v2-login .setupnote{background:rgba(255,255,255,.1);border-radius:14px;padding:12px;font-size:12.5px;
+  line-height:1.5;margin-bottom:16px;border:1px solid rgba(255,255,255,.14)}
+
+/* ---- semakan migrasi ---- */
+.vcheck{display:flex;align-items:flex-start;gap:10px;padding:10px 0;border-bottom:1px solid var(--line2)}
+.vcheck:last-child{border-bottom:0}
+.vcheck .ic{width:22px;height:22px;border-radius:50%;display:grid;place-items:center;flex:none;font-size:12px;
+  font-weight:800;color:#fff;margin-top:1px}
+.vcheck .ic.ok{background:#1f8a5b}
+.vcheck .ic.no{background:#c23f5d}
+.vcheck .lbl{flex:1;min-width:0;font-size:13.5px;line-height:1.35}
+.vcheck .lbl small{display:block;color:var(--mut);font-size:11.5px;margin-top:2px;word-break:break-word}
+.vcheck .val{text-align:right;font-size:12px;color:var(--ink2);white-space:nowrap;font-variant-numeric:tabular-nums}
+.vcheck .val em{display:block;font-style:normal;color:var(--mut2);font-size:11px}
+.vsum{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:4px}
+.vsum>div{background:#fff;border:1px solid var(--line2);border-radius:16px;padding:12px}
+.vsum small{display:block;font-size:11.5px;color:var(--mut);font-weight:600}
+.vsum b{display:block;font-size:22px;font-weight:800;letter-spacing:-.02em;line-height:1.15}
+.vsum b.ok{color:#1f8a5b}
+.vsum b.no{color:#c23f5d}
+.vgroup{margin-top:18px}
+.vgroup h4{font-size:12.5px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:var(--g6);margin:0 2px 6px}
+.vcard{background:#fff;border:1px solid var(--line2);border-radius:18px;padding:4px 14px}
+.vbanner{display:flex;gap:12px;align-items:center;border-radius:18px;padding:14px;margin-bottom:14px;font-size:13.5px;line-height:1.4}
+.vbanner.ok{background:#e2f5eb;color:#155f40;border:1px solid #bfe6d3}
+.vbanner.no{background:#fbe6ea;color:#96233d;border:1px solid #efb3c0}
+.vbanner b{display:block;font-size:14.5px}
+.vbanner .big{width:40px;height:40px;border-radius:50%;display:grid;place-items:center;flex:none;
+  background:#fff;font-size:19px;font-weight:800}
+.vtbl{width:100%;border-collapse:collapse;font-size:12.5px}
+.vtbl th{text-align:left;font-size:11px;color:var(--mut);font-weight:600;padding:7px 8px;border-bottom:1px solid var(--line)}
+.vtbl td{padding:8px;border-bottom:1px solid var(--line2);vertical-align:top}
+.vtbl tr:last-child td{border-bottom:0}
+.vtbl td.num,.vtbl th.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+.vtbl .mono{font-family:ui-monospace,Menlo,monospace;font-size:11px;word-break:break-all}
+.vtblwrap{background:#fff;border:1px solid var(--line2);border-radius:16px;overflow:auto;max-height:340px}
+
+/* ---- tetapan & akses ---- */
+.rb-row .chev{color:var(--mut2);flex:none}
+.memtag{display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:700;padding:2px 8px;
+  border-radius:999px;background:var(--g1);color:var(--g6);margin-left:6px}
+.rb-note.ok{background:#e2f5eb;border-color:#bfe6d3;color:#155f40}
+
+/* ---- pelbagai ---- */
+.rb-loading{min-height:60vh;display:grid;place-items:center;color:var(--mut);font-size:13.5px;text-align:center;gap:10px}
+.rb-hide{display:none!important}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+@media(max-width:400px){
+  .vsum{grid-template-columns:repeat(3,1fr);gap:6px}
+  .vsum b{font-size:18px}
+  .v2-login .otpbox input{width:40px;height:48px;font-size:18px}
+}

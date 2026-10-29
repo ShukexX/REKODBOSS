@@ -3,13 +3,9 @@ dist/
 
 # dev
 .yarn/
-!.yarn/releases
 .vscode/*
 !.vscode/launch.json
-!.vscode/*.code-snippets
-.idea/workspace.xml
-.idea/usage.statistics.xml
-.idea/shelf
+.idea/
 
 # deps
 node_modules/
@@ -24,10 +20,16 @@ node_modules/
 logs/
 *.log
 npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-pnpm-debug.log*
-lerna-debug.log*
+.pm2/
 
-# misc
-.DS_Store
+# backup
+*.backup
+*.bak
+*.tar.gz
+*.zip
+
+# seed aset dijana (sumber asal dalam /home/user/design_handoff)
+src/seed/assets.ts
+src/seed/refdocs.ts
+src/seed/schedule.ts
+src/lib/schema.ts

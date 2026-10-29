@@ -1,0 +1,589 @@
+{
+  "exported_at": "2026-10-28T09:41:10.432Z",
+  "revision": 18,
+  "items": 31,
+  "payments": 4,
+  "documents": 3,
+  "files": [
+    {
+      "path": "00_MULA_DI_SINI.txt",
+      "bytes": 2080,
+      "sha256": "20c1a4c1ddf9ccdc313530782afdbf2427058456b6d80feb15def33331fc4ca6"
+    },
+    {
+      "path": "01_SPESIFIKASI_GENSPARK.md",
+      "bytes": 7650,
+      "sha256": "bb63c472bc847b8d541646c7b713a8711c7830a76452755e1779570377b24ea8"
+    },
+    {
+      "path": "02_DATA_SEMASA.json",
+      "bytes": 20183,
+      "sha256": "ff7b1e84110d8930e34d3fff5e136c080c26b711c67796d2338974a3f9e66f6f"
+    },
+    {
+      "path": "03B_BAYARAN_SEMASA.csv",
+      "bytes": 633,
+      "sha256": "e53afdb284d3371639e2aa5813d5f90a62e2b3f3026a7697fc1469d873514c92"
+    },
+    {
+      "path": "03C_PECAHAN_PENERIMA.csv",
+      "bytes": 123,
+      "sha256": "6e3fc2d30d4e304f83d34e266fa56cd0742726e793c23e8195eb6c62f8e8fe9d"
+    },
+    {
+      "path": "03D_GAJI_STAF_INDONESIA.csv",
+      "bytes": 3342,
+      "sha256": "17c5929b46c61d2b931fec46f0611ebf9a85fbb0a08bb603ea6447543ea324c8"
+    },
+    {
+      "path": "03E_JADUAL_OKT2026_DIS2027.csv",
+      "bytes": 3266,
+      "sha256": "f10075363da20745bcbd059b72593e6546e6334d36103b86c576a1d8871d436a"
+    },
+    {
+      "path": "03_KOMITMEN_SEMASA.csv",
+      "bytes": 8177,
+      "sha256": "10b3441afa15a63c704e4524dfa907215e501f9ffaa1e08651859b2b9558fc0e"
+    },
+    {
+      "path": "04_SEMAKAN_DATA.md",
+      "bytes": 12674,
+      "sha256": "eaf49ace63c29bd5a4950cb0f44ecd139c3921e9b9c32f9e82b1b6e1448e03a1"
+    },
+    {
+      "path": "05_LAMPIRAN_SEMASA/0001_03_46_54_714530__bill-payment-receipt-Mre102026.pdf",
+      "bytes": 20322,
+      "sha256": "a1dc1dfc77f1f8fd5595d7a656b48d66be2f8e06893f4d18297a17d002555171"
+    },
+    {
+      "path": "05_LAMPIRAN_SEMASA/0002_bina_asetoct_2026.pdf",
+      "bytes": 20398,
+      "sha256": "5b3a387646943efbab9653151513ade889451fab7af2303528f5cb7cbb6f6993"
+    },
+    {
+      "path": "05_LAMPIRAN_SEMASA/0003_03_44_52_105671__bill-payment-receipt-Xb181026A.pdf",
+      "bytes": 20426,
+      "sha256": "b175d4e35d9ec7957b2e3f1845a19b9bf6e078f21db9b2b39ebf6793c33b2990"
+    },
+    {
+      "path": "06_SENARAI_ASAL_RUJUKAN.json",
+      "bytes": 16729,
+      "sha256": "0a6e8333d7fe92ee6013382f34aa89ea9549fd45a66cdfba2406ee83f9369d56"
+    },
+    {
+      "path": "07_DOKUMEN_RUJUKAN/Akaun_Alphard.png",
+      "bytes": 278966,
+      "sha256": "b260c1bd38710563706dc4589dafff499052cdb22b2335be54afa7971bdb6e89"
+    },
+    {
+      "path": "07_DOKUMEN_RUJUKAN/Akaun_Vista_Hill.png",
+      "bytes": 339214,
+      "sha256": "b827b50fa21981ea73f589d20161adf515f6bffd0c06e512095d5e2e5a2c2b44"
+    },
+    {
+      "path": "07_DOKUMEN_RUJUKAN/Komitmen_IDR_Asal.png",
+      "bytes": 96709,
+      "sha256": "1f9abdbce0ae0f25f87a70c2ea917fe54eb40fbdf549ced5bbe2ac572a1ae5bd"
+    },
+    {
+      "path": "07_DOKUMEN_RUJUKAN/Payroll_Indonesia_November_2026.pdf",
+      "bytes": 22697,
+      "sha256": "cf59257b3cbdafcdff81cc35e90d2219440d399b1e6ed078f64ce97467de6fa8"
+    },
+    {
+      "path": "07_DOKUMEN_RUJUKAN/Yuran_Al_Rahman_November.png",
+      "bytes": 332495,
+      "sha256": "7f5979c14e3df57dcf862f1ba20caa03dc87fb08c016c2fdcee9e0ea8c067589"
+    },
+    {
+      "path": "07_DOKUMEN_RUJUKAN/Yuran_LC_November.png",
+      "bytes": 343672,
+      "sha256": "165b30daf5d5ca9eb4da7488dc106873b18d8bcb4f9b89ea7ca559fd50ec3f24"
+    },
+    {
+      "path": "08_KOD_RUJUKAN/BACA_DAHULU.txt",
+      "bytes": 378,
+      "sha256": "cfcaa0920f34672dfa3f82d7897baf08e0afbe791131de7e95db072aa33fe17c"
+    },
+    {
+      "path": "08_KOD_RUJUKAN/app/api/documents/route.ts",
+      "bytes": 3124,
+      "sha256": "7c36367e66581f5f2769c2e4dd5563657f2f94fc1e401b18b75d8df546e7cce9"
+    },
+    {
+      "path": "08_KOD_RUJUKAN/app/api/ledger/apply-imports.ts",
+      "bytes": 1202,
+      "sha256": "d90daacf06b6990547f6447cb21221a2c889139b2ea1914b4c1b1172b773cbb9"
+    },
+    {
+      "path": "08_KOD_RUJUKAN/app/api/ledger/indo-staff-import.ts",
+      "bytes": 1695,
+      "sha256": "302f81c7d8be50d17cf1291dc8d777a1cf801f0ec4bf47b152225c51776e0b76"
+    },
+    {
+      "path": "08_KOD_RUJUKAN/app/api/ledger/initial-import.ts",
+      "bytes": 1074,
+      "sha256": "7e7139f94ee26336b30285643338f385b771f72a089245030caa1e2685fe5cc8"
+    },
+    {
+      "path": "08_KOD_RUJUKAN/app/api/ledger/myr-import.ts",
+      "bytes": 1266,
+      "sha256": "e71dffabe645f735de01119e496ea95368251448776dac2511a2ee54318e2b3b"
+    },
+    {
+      "path": "08_KOD_RUJUKAN/app/api/ledger/payroll-import.ts",
+      "bytes": 872,
+      "sha256": "90b2d1e4cf1bb20b79d77af18b406c5c9f06a54cd8c013be2e53b55476539c30"
+    },
+    {
+      "path": "08_KOD_RUJUKAN/app/api/ledger/personal-my-import.ts",
+      "bytes": 1695,
+      "sha256": "5e6667ab3c3d1ec885ead067c7d92edf24c96c887f22e143b229ddb46b3e3360"
+    },
+    {
+      "path": "08_KOD_RUJUKAN/app/api/ledger/route.ts",
+      "bytes": 4223,
+      "sha256": "c57abee58b47f3f33fd7ec057914d8370809d803e87188e1aee6472ebf5f38c7"
+    },
+    {
+      "path": "08_KOD_RUJUKAN/app/api/ledger/vehicle-vista-import.ts",
+      "bytes": 936,
+      "sha256": "23ac48e04cf119c785672efd63c486ea594d9fed01499f45a3c6737aa2f86298"
+    },
+    {
+      "path": "08_KOD_RUJUKAN/app/chatgpt-auth.ts",
+      "bytes": 2550,
+      "sha256": "4265a2e7c2dcb3a6f4b7026f762bf5b6e4caec76cc13c0a45987ee9a9f2e42cc"
+    },
+    {
+      "path": "08_KOD_RUJUKAN/app/globals.css",
+      "bytes": 20474,
+      "sha256": "1546b971dddd1e5c897a81a85f8aff8abf8949a2ad08b4aa97babbde82120849"
+    },
+    {
+      "path": "08_KOD_RUJUKAN/app/layout.tsx",
+      "bytes": 351,
+      "sha256": "2ffd652cfab0a92d06fd8468720be3a2c3b38ed622d3c8a86d664b0163df52e1"
+    },
+    {
+      "path": "08_KOD_RUJUKAN/app/page.tsx",
+      "bytes": 20970,
+      "sha256": "086c263b629df70d282a0f4478d0b7ff3214b107ec3542c85eee248ae9c99987"
+    },
+    {
+      "path": "08_KOD_RUJUKAN/components/Documents.tsx",
+      "bytes": 2715,
+      "sha256": "2562832df9da8297d12c06e76ebf330e712274facf0a01c084e36773287056e7"
+    },
+    {
+      "path": "08_KOD_RUJUKAN/components/PaymentDialog.tsx",
+      "bytes": 6563,
+      "sha256": "0a8dd508e18201b2e5614e46037a5e55409c7617af0d9797929acf3e1407ea39"
+    },
+    {
+      "path": "08_KOD_RUJUKAN/components/connector-error.tsx",
+      "bytes": 1082,
+      "sha256": "2d0d04559952ce9c9a327cca499f4b99f35d885cccfce375230e116695d3f155"
+    },
+    {
+      "path": "08_KOD_RUJUKAN/components/ui/accordion.tsx",
+      "bytes": 2048,
+      "sha256": "a4f153089ba886dfcf73fac26b5c01ca933fa12fbe88df6fb723912bfffdfbb0"
+    },
+    {
+      "path": "08_KOD_RUJUKAN/components/ui/alert-dialog.tsx",
+      "bytes": 5439,
+      "sha256": "9a8d950f2b9b4352d5ebb762fb44d5c28c2d353aa29712071973656a8736e311"
+    },
+    {
+      "path": "08_KOD_RUJUKAN/components/ui/alert.tsx",
+      "bytes": 1614,
+      "sha256": "2cc59b5f7bda91c1670884b1bf46bfc8a2a6f226cef184f5762acc037188885b"
+    },
+    {
+      "path": "08_KOD_RUJUKAN/components/ui/aspect-ratio.tsx",
+      "bytes": 274,
+      "sha256": "b1c157886236782cb92d8fbcd4749532aaf6d8aabefd6e157ca40358f902f407"
+    },
+    {
+      "path": "08_KOD_RUJUKAN/components/ui/attachment.tsx",
+      "bytes": 6002,
+      "sha256": "ae8a25dd1a896d3964e3ef54d97e51221b418cde287dfd794428b89951c5c790"
+    },
+    {
+      "path": "08_KOD_RUJUKAN/components/ui/avatar.tsx",
+      "bytes": 2916,
+      "sha256": "58a846bf1617b94b9681921db9b8461d0145f311424663d11678a06b6153cb34"
+    },
+    {
+      "path": "08_KOD_RUJUKAN/components/ui/badge.tsx",
+      "bytes": 1776,
+      "sha256": "46a0de5224f6a5d5d63d45246534288518dce888f031064bff925bbc7fe6ad97"
+    },
+    {
+      "path": "08_KOD_RUJUKAN/components/ui/breadcrumb.tsx",
+      "bytes": 2350,
+      "sha256": "d4c0831bba2212e778248f54a6ace6ef378df8bba4616d1abf27787a31eabae5"
+    },
+    {
+      "path": "08_KOD_RUJUKAN/components/ui/bubble.tsx",
+      "bytes": 4699,
+      "sha256": "870cc0c5cfc8a515053f7e41e706a6bd017a909b45f1305fd3b164a52cc4483b"
+    },
+    {
+      "path": "08_KOD_RUJUKAN/components/ui/button-group.tsx",
+      "bytes": 2202,
+      "sha256": "784c89d8ee683e1bc972ae69e6ea8225a7f63abe22aa1b5fc3423ae8a2a399c0"
+    },
+    {
+      "path": "08_KOD_RUJUKAN/components/ui/button.tsx",
+      "bytes": 2392,
+      "sha256": "cc36af0f8b5019c33cc039fbf03bb952a513072b15b55b53c592b78af3e5f4c4"
+    },
+    {
+      "path": "08_KOD_RUJUKAN/components/ui/calendar.tsx",
+      "bytes": 7832,
+      "sha256": "3855fbe0d3f8ad3a4b93071f98b76a9f6782d46ec8b05f5d2ddbee1e4e39bc84"
+    },
+    {
+      "path": "08_KOD_RUJUKAN/components/ui/card.tsx",
+      "bytes": 1987,
+      "sha256": "c48dd3b96be90a7066f1aebf294f0af9d00ebcdc367d5d4aca55429ade570c1c"
+    },
+    {
+      "path": "08_KOD_RUJUKAN/components/ui/carousel.tsx",
+      "bytes": 5556,
+      "sha256": "b7ea0dda3903d972c186f739e23da61f547bc83b5a0bf13b16856577846d5fc3"
+    },
+    {
+      "path": "08_KOD_RUJUKAN/components/ui/chart.tsx",
+      "bytes": 10614,
+      "sha256": "45aa5ea4a386f4fb5b8869ff4bab3a08cf89255190ee322043baf84c3e950b6a"
+    },
+    {
+      "path": "08_KOD_RUJUKAN/components/ui/checkbox.tsx",
+      "bytes": 1214,
+      "sha256": "b23ab9d4deeedf2ac8f512c368361ede681aa383437ef48563a6f9b7dbe95f27"
+    },
+    {
+      "path": "08_KOD_RUJUKAN/components/ui/collapsible.tsx",
+      "bytes": 795,
+      "sha256": "c6598e5584f4258b5d9fefadbc5ad6a66888ad58729f4b634a0bb2d9c513188b"
+    },
+    {
+      "path": "08_KOD_RUJUKAN/components/ui/combobox.tsx",
+      "bytes": 9158,
+      "sha256": "2d68e78b2dc7e38a085f222dede60a80b4f8229a6e91732c484605e204d46735"
+    },
+    {
+      "path": "08_KOD_RUJUKAN/components/ui/command.tsx",
+      "bytes": 4818,
+      "sha256": "361193df1e3d64a9e9b5048f045264782fcb387aab3f00f2b805fdcbf538b16a"
+    },
+    {
+      "path": "08_KOD_RUJUKAN/components/ui/context-menu.tsx",
+      "bytes": 8268,
+      "sha256": "2cf1fcf59df0649a3e2a126d1df2f639145f6b6bf5689ee54af1f40ab1245017"
+    },
+    {
+      "path": "08_KOD_RUJUKAN/components/ui/dialog.tsx",
+      "bytes": 4303,
+      "sha256": "dce39c6adc47d997bd2567f8b7a72f466b0134715105cd42f9194007b8ecdb14"
+    },
+    {
+      "path": "08_KOD_RUJUKAN/components/ui/direction.tsx",
+      "bytes": 506,
+      "sha256": "84ae2ad658207f0e0f367978e5508cd8027cd00c29c41d3d13db21a708c3d1e6"
+    },
+    {
+      "path": "08_KOD_RUJUKAN/components/ui/drawer.tsx",
+      "bytes": 4255,
+      "sha256": "cb6eaf58eb0757ca91af284e5d925b89a42ad7eb19cb3f44c575a3487aa9350f"
+    },
+    {
+      "path": "08_KOD_RUJUKAN/components/ui/dropdown-menu.tsx",
+      "bytes": 8418,
+      "sha256": "98f0dcdae38225b73734aceeb9213dd751fea2c72ea520df31003cd133deac8a"
+    },
+    {
+      "path": "08_KOD_RUJUKAN/components/ui/empty.tsx",
+      "bytes": 2396,
+      "sha256": "ae95bdcf367a076ae02e7925f14522a148798f72d9651749c6d55497dba584c0"
+    },
+    {
+      "path": "08_KOD_RUJUKAN/components/ui/field.tsx",
+      "bytes": 6159,
+      "sha256": "ba67d76f017ac059fc86cf8c344e0b2991c4322d3619e125498c19b87f6eefbd"
+    },
+    {
+      "path": "08_KOD_RUJUKAN/components/ui/form.tsx",
+      "bytes": 3757,
+      "sha256": "315b46bb75ab7d1c6061b5d750aa4bedf6e7a455e15e2d7f9182f053d5972b1e"
+    },
+    {
+      "path": "08_KOD_RUJUKAN/components/ui/hover-card.tsx",
+      "bytes": 1526,
+      "sha256": "f5d8df42c59370ec14d61bcc54f7d68e9bb7dfa0d6a872b2f7cffc2aafbf23b8"
+    },
+    {
+      "path": "08_KOD_RUJUKAN/components/ui/input-group.tsx",
+      "bytes": 5065,
+      "sha256": "6afbd58fea4c438e6252dc4568bddc122e84ababead4ad5cee50ace01100c9a0"
+    },
+    {
+      "path": "08_KOD_RUJUKAN/components/ui/input-otp.tsx",
+      "bytes": 2254,
+      "sha256": "161946daa89f0eda2575b9271c0494e35807c4ffb55598a49f67160c17fec299"
+    },
+    {
+      "path": "08_KOD_RUJUKAN/components/ui/input.tsx",
+      "bytes": 962,
+      "sha256": "8c4612a7c41319ac5049daa3b34b080f9784b6245c17780eb87c127e58e473db"
+    },
+    {
+      "path": "08_KOD_RUJUKAN/components/ui/item.tsx",
+      "bytes": 4486,
+      "sha256": "6e2144d6d87142dbbe56d568810bf546318c8aa661447ebb0d76ebbf382cb45f"
+    },
+    {
+      "path": "08_KOD_RUJUKAN/components/ui/kbd.tsx",
+      "bytes": 862,
+      "sha256": "6088c3a5432338b1719c17e9b5d0e1fa74fd1f66060f248fc88909d33a82cd13"
+    },
+    {
+      "path": "08_KOD_RUJUKAN/components/ui/label.tsx",
+      "bytes": 606,
+      "sha256": "a476e41f08b9de5bd447de66a33d8bc2ad18f2fa6b96c064778bab4b6f439f4c"
+    },
+    {
+      "path": "08_KOD_RUJUKAN/components/ui/marker.tsx",
+      "bytes": 1864,
+      "sha256": "3d798763f094b2bb5e7ade2d5cd1b9bab498bc8ca7fd4cfaf4e5835bdedc34a0"
+    },
+    {
+      "path": "08_KOD_RUJUKAN/components/ui/menubar.tsx",
+      "bytes": 8389,
+      "sha256": "9243af8afcea03703398ccd1c2a8c0a87ad6cbaf2bd272fb609f5b79fe46aebb"
+    },
+    {
+      "path": "08_KOD_RUJUKAN/components/ui/message-scroller.tsx",
+      "bytes": 3992,
+      "sha256": "bb7660a248e4e9589c3816c7c1c199ea1381a70d2c8476ae895b567a7a4d86cf"
+    },
+    {
+      "path": "08_KOD_RUJUKAN/components/ui/message.tsx",
+      "bytes": 2232,
+      "sha256": "9d2952bf3b641081f09aa2739535e6bbd1be0a4946789752a2c20d8aaef43185"
+    },
+    {
+      "path": "08_KOD_RUJUKAN/components/ui/native-select.tsx",
+      "bytes": 1995,
+      "sha256": "007516b111fca8c98a6c40c94ab91bb68cc5b52afce1ed1f5e510c3d86e7347c"
+    },
+    {
+      "path": "08_KOD_RUJUKAN/components/ui/navigation-menu.tsx",
+      "bytes": 6658,
+      "sha256": "889d358a77de88e9cb6f39ea4895ea4c76eaf01d731b74e44f1c41e97a78a044"
+    },
+    {
+      "path": "08_KOD_RUJUKAN/components/ui/pagination.tsx",
+      "bytes": 2717,
+      "sha256": "374ad135c3d4ff3ec080a0009cd9745cdd0e12faa89d2b0e86074f11e5127fd1"
+    },
+    {
+      "path": "08_KOD_RUJUKAN/components/ui/popover.tsx",
+      "bytes": 2357,
+      "sha256": "31c350309ff5d3034e6ecf1b0eda75ba8855bdbf987fc7ad6d71f0ef07c5a447"
+    },
+    {
+      "path": "08_KOD_RUJUKAN/components/ui/progress.tsx",
+      "bytes": 755,
+      "sha256": "c8c26e8f5f041c3cdf4915347dc1d9c022f9448f149990fadcaf303e952fa57d"
+    },
+    {
+      "path": "08_KOD_RUJUKAN/components/ui/radio-group.tsx",
+      "bytes": 1460,
+      "sha256": "fe5ce39636d0818c2bf9c4eebddff893d1225fa2c81b5fa4bb8cbb39a8c913ce"
+    },
+    {
+      "path": "08_KOD_RUJUKAN/components/ui/resizable.tsx",
+      "bytes": 1815,
+      "sha256": "bc63958467aa00557c551bb0d96a5ae4c965c1e1ba2380e595949d933b132f7c"
+    },
+    {
+      "path": "08_KOD_RUJUKAN/components/ui/scroll-area.tsx",
+      "bytes": 1639,
+      "sha256": "8bd9d986b2844c9a87de825c6de4787b6739b36c3dc9a05ccf3eb107160e4043"
+    },
+    {
+      "path": "08_KOD_RUJUKAN/components/ui/select.tsx",
+      "bytes": 6353,
+      "sha256": "0b796a108a4eb5ba52d9ad938b7aea36dc56ae66c703a6d0a23dbc24f96daff3"
+    },
+    {
+      "path": "08_KOD_RUJUKAN/components/ui/separator.tsx",
+      "bytes": 694,
+      "sha256": "6da346505c8629a4668420d2a5ca48891383bbe0b0ceb14163537c671879427e"
+    },
+    {
+      "path": "08_KOD_RUJUKAN/components/ui/sheet.tsx",
+      "bytes": 4188,
+      "sha256": "63863cf2df8f8973e52b3459ac9bdbf81be1262dbc70eb53d5271ffb03488e16"
+    },
+    {
+      "path": "08_KOD_RUJUKAN/components/ui/sidebar.tsx",
+      "bytes": 21526,
+      "sha256": "4a8d73e7730a2b1fcecfca31299ed26db65c2307b84197a59c6ec7c01c7ad28e"
+    },
+    {
+      "path": "08_KOD_RUJUKAN/components/ui/skeleton.tsx",
+      "bytes": 276,
+      "sha256": "ba48dd5be5a6a1378bd4e011028654b5bf419f1e7d20ee4b9f8330c1264e7239"
+    },
+    {
+      "path": "08_KOD_RUJUKAN/components/ui/slider.tsx",
+      "bytes": 1991,
+      "sha256": "0e37484f4b416e79ac18c655cac961aefacf6e67085cfc2b320ea8af545635a3"
+    },
+    {
+      "path": "08_KOD_RUJUKAN/components/ui/sonner.tsx",
+      "bytes": 1034,
+      "sha256": "13ccc9b0fe4248e622f83a1d3b2f0566b72b5e04162d7d0c8db8945ecc71b55f"
+    },
+    {
+      "path": "08_KOD_RUJUKAN/components/ui/spinner.tsx",
+      "bytes": 331,
+      "sha256": "3e6e6e8d37fb4069f8e43e55318f8db06fbc36e6c8be0096da3c9337c1c798b9"
+    },
+    {
+      "path": "08_KOD_RUJUKAN/components/ui/switch.tsx",
+      "bytes": 1408,
+      "sha256": "386d4d4deb39f34126f9700fe9bf5393d238485dd94018bba9d154dda84c62ae"
+    },
+    {
+      "path": "08_KOD_RUJUKAN/components/ui/table.tsx",
+      "bytes": 2478,
+      "sha256": "20e5a7f224959c6b75802995706a97e9da171f693d4b6b1b436388fcd9df96f3"
+    },
+    {
+      "path": "08_KOD_RUJUKAN/components/ui/tabs.tsx",
+      "bytes": 3782,
+      "sha256": "865d0194331b9b2be36723fa79d3575dc83078b4cb941cafee87cb72fc2cff46"
+    },
+    {
+      "path": "08_KOD_RUJUKAN/components/ui/textarea.tsx",
+      "bytes": 759,
+      "sha256": "253cdeb487c73beaaccdf47fc163e36e7d5b7ae6ddf09a4f64998a109a112979"
+    },
+    {
+      "path": "08_KOD_RUJUKAN/components/ui/toggle-group.tsx",
+      "bytes": 2308,
+      "sha256": "69f643e889e933f05c1439084480d8646f66a161c7d1cf0730ee926382ade35e"
+    },
+    {
+      "path": "08_KOD_RUJUKAN/components/ui/toggle.tsx",
+      "bytes": 1565,
+      "sha256": "ba4d0b0a2b2fee75dc36dfc19e32082e721024b919050c97fd5dc70faa924e16"
+    },
+    {
+      "path": "08_KOD_RUJUKAN/components/ui/tooltip.tsx",
+      "bytes": 1830,
+      "sha256": "a0784eb77831a799fad7991df4f1b666f876201565a80175e1aa68733574a2e4"
+    },
+    {
+      "path": "08_KOD_RUJUKAN/db/index.ts",
+      "bytes": 423,
+      "sha256": "dc7610b00b918e0ffff1360a63626f16655ced3064b2eaf96095a4101fb14bcd"
+    },
+    {
+      "path": "08_KOD_RUJUKAN/db/schema.ts",
+      "bytes": 234,
+      "sha256": "97eaabd1483e58e039548db4ba71a4bedca93e40587825e58d758150f8f812a7"
+    },
+    {
+      "path": "08_KOD_RUJUKAN/drizzle/0000_naive_kid_colt.sql",
+      "bytes": 129,
+      "sha256": "ffb564de40203884ebb266b86f5bd0693ef9f36e02a9342177e0ce3b63d71964"
+    },
+    {
+      "path": "08_KOD_RUJUKAN/drizzle/meta/0000_snapshot.json",
+      "bytes": 1077,
+      "sha256": "1d15ed7055005bb076bef323413abf5a663e20d74df455b20858429bbecdc6b8"
+    },
+    {
+      "path": "08_KOD_RUJUKAN/drizzle/meta/_journal.json",
+      "bytes": 204,
+      "sha256": "a2fa234b632497d783381b5c9d2ec3e84a58667dd74c1ff7c6482ece514e3dd3"
+    },
+    {
+      "path": "08_KOD_RUJUKAN/lib/accounts.ts",
+      "bytes": 885,
+      "sha256": "e0bc930a3784ffe954cea8c169987fc2631837a50f4a092f4d3b7fe2b3a725b3"
+    },
+    {
+      "path": "08_KOD_RUJUKAN/lib/connector-context.ts",
+      "bytes": 612,
+      "sha256": "bbddff68689cb0f6926fecd4b8b96f12f2054277c296e97b0df07d4ad5ece24e"
+    },
+    {
+      "path": "08_KOD_RUJUKAN/lib/connector-contract.mts",
+      "bytes": 5362,
+      "sha256": "e1a7b24a8793af34b595690d9b1300c897c7321c14f215cedf58ad95799d7c3e"
+    },
+    {
+      "path": "08_KOD_RUJUKAN/lib/connector-errors.mts",
+      "bytes": 2717,
+      "sha256": "a22edf13d6873ae832c4a2a0d579fc666c73ec996ef0722d39172649d38f0871"
+    },
+    {
+      "path": "08_KOD_RUJUKAN/lib/connector-preview.d.ts",
+      "bytes": 433,
+      "sha256": "abd69a94f7f61f1359063bb557574faae35e8ff5a028cc4c04b9ee248ef52642"
+    },
+    {
+      "path": "08_KOD_RUJUKAN/lib/connectors.ts",
+      "bytes": 416,
+      "sha256": "1c93d747e384c8e17e3e3dd5361b24412babf5eba2a11d2ae7a75f4e0924112c"
+    },
+    {
+      "path": "08_KOD_RUJUKAN/lib/payment-schema.ts",
+      "bytes": 880,
+      "sha256": "7f2fed21b4b48b0cfe800a4c4e5813929fbc85f8eae84cea59899ff632109fbf"
+    },
+    {
+      "path": "08_KOD_RUJUKAN/lib/schedule.ts",
+      "bytes": 550,
+      "sha256": "f1e51b0c58a6868fcde3e33088ce4bc61ae22284de18d57ea69f150c53f15546"
+    },
+    {
+      "path": "08_KOD_RUJUKAN/lib/utils.ts",
+      "bytes": 177,
+      "sha256": "53f3d3d070f0a9082934da25b875f9499855c2b0693868dd28be8c23d8730f68"
+    },
+    {
+      "path": "08_KOD_RUJUKAN/package.json",
+      "bytes": 2139,
+      "sha256": "9dc3b3fb45e75d8125571ca78fd170a62bbc0f57521dcd2e53bc84a5a435c377"
+    },
+    {
+      "path": "08_KOD_RUJUKAN/pnpm-lock.yaml",
+      "bytes": 345021,
+      "sha256": "095ba6f301ba3997da2c251dfc4b805c220624bdf0921d905eaceee0d1fb29c9"
+    },
+    {
+      "path": "08_KOD_RUJUKAN/public/favicon.svg",
+      "bytes": 712,
+      "sha256": "e6d2e59b7b5bbb0342e0fb496dfc262decbfe4426bbb7b047aec8d467d1dc6f7"
+    },
+    {
+      "path": "08_KOD_RUJUKAN/tsconfig.json",
+      "bytes": 893,
+      "sha256": "a4c1cc83b63ef9d39641d3babaefffa063dccbbc93338e18017b5013d713163e"
+    },
+    {
+      "path": "GENSPARK_PROMPT_LENGKAP.txt",
+      "bytes": 22408,
+      "sha256": "7dfd3bbc5d01e98f9bf655ad6b6f48526e932b6322d30747eb8888bcf6b46181"
+    }
+  ]
+}

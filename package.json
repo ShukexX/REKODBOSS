@@ -6,10 +6,13 @@
     "build": "vite build",
     "preview": "wrangler pages dev",
     "deploy": "npm run build && wrangler pages deploy",
-    "cf-typegen": "wrangler types --env-interface CloudflareBindings"
+    "cf-typegen": "wrangler types --env-interface CloudflareBindings",
+    "prebuild": "node scripts/build-schema.mjs && node scripts/prepare-seed.mjs"
   },
   "dependencies": {
-    "hono": "^4.13.14"
+    "hono": "^4.13.14",
+    "htm": "^3.1.1",
+    "preact": "^11.1.0"
   },
   "devDependencies": {
     "@hono/vite-build": "^1.11.1",
