@@ -9,7 +9,7 @@ import {
   Sheet, SrcBadge, SourcePicker, FilePick, DocRow, StatusPill, BankNote, openViewerFn,
   toast, reload, useStore, recipientLine, store,
 } from './ui.js?v=20261029-auth1'
-import { buildOccurrences } from './domain.js'
+import { buildOccurrences } from './domain.js?v=20261029-deletefix'
 
 /* ================= KATA LALUAN ================= */
 export function PasswordSheet({ onClose }) {
@@ -674,4 +674,3 @@ export function AccessSheet({ onClose }) {
     }}><${Icon} n="logout" s=${16} />Log keluar semua peranti</button>
   <//>`
 }
-

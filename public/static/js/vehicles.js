@@ -5,7 +5,7 @@ import {
   html, Icon, fmtMoney, fmtDate, api, todayISO, addMonthsDate, acc, ACCOUNTS, CURRENCIES,
 } from './lib.js'
 import { Sheet, FilePick, toast, reload, useStore } from './ui.js?v=20261029-auth1'
-import { vehicleStatus } from './domain.js'
+import { vehicleStatus } from './domain.js?v=20261029-deletefix'
 
 const VK = { roadtax: 'Roadtax', insurance: 'Insurans', service: 'Servis' }
 const VIC = { roadtax: 'shield', insurance: 'shield', service: 'set' }
@@ -259,4 +259,3 @@ export function VehPickSheet({ next, onClose, open }) {
       <${Icon} n="right" s=${16} /></button>`)}
   <//>`
 }
-

@@ -10,7 +10,7 @@ import {
 } from './ui.js?v=20261029-auth1'
 import {
   buildOccurrences, totals, combine, bySource, pendingItems, vehicleStatus, vehicleAlerts,
-} from './domain.js'
+} from './domain.js?v=20261029-deletefix'
 import { DetailSheet, PaySheet, EditSheet, DocsSheet, RefDocsSheet, IncomeSheet, RateSheet, QuickPaySheet, AccessSheet } from './sheets.js?v=20261029-auth1'
 
 export const useOccs = (month) => {
@@ -675,4 +675,3 @@ export function VerifySheet({ onClose }) {
     </div>`}
   <//>`
 }
-
