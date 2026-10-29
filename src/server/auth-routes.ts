@@ -3,6 +3,7 @@ import type { Env, Member } from '../lib/db'
 import {
   createOtp, verifyOtp, createSession, setSessionCookie, clearSessionCookie,
   currentMember, findMemberByEmail, isEmail, sendOtpEmail, revokeSession, revokeAllSessions,
+  hashPassword, verifyPassword,
 } from '../lib/auth'
 import { bad, forbidden, requireMember, type Ctx } from './helpers'
 import { audit, listMembers, getMeta, setMeta } from '../lib/db'
@@ -104,6 +105,38 @@ authRoutes.post('/verify', async (c) => {
   setSessionCookie(c, sid)
   await audit(c.env.DB, member.id, 'login', 'user', member.id, null, null, c.req.header('cf-connecting-ip'))
   return c.json({ ok: true, me: member })
+})
+
+/** Login alternatif menggunakan kata laluan; OTP kekal tersedia sebagai pilihan lain. */
+authRoutes.post('/login-password', async (c) => {
+  const body = await c.req.json().catch(() => ({}))
+  const email = String(body.email || '').trim().toLowerCase()
+  const password = String(body.password || '')
+  if (!isEmail(email)) throw bad('Masukkan e-mel yang sah.')
+  if (password.length < 8) throw bad('Kata laluan mesti sekurang-kurangnya 8 aksara.')
+  const member = await findMemberByEmail(c.env, email)
+  if (!member || member.status === 'disabled') throw bad('E-mel atau kata laluan tidak sah.')
+  const row = await c.env.DB.prepare('SELECT password_hash FROM users WHERE id = ?').bind(member.id).first<any>()
+  if (!row?.password_hash || !(await verifyPassword(password, row.password_hash))) throw bad('E-mel atau kata laluan tidak sah.')
+  const sid = await createSession(c.env, member.id, c.req.header('user-agent') || '')
+  setSessionCookie(c, sid)
+  await audit(c.env.DB, member.id, 'login_password', 'user', member.id, null, null, c.req.header('cf-connecting-ip'))
+  return c.json({ ok: true, me: member })
+})
+
+/** Tetapkan atau tukar kata laluan untuk akaun yang sedang login. */
+authRoutes.post('/password', async (c) => {
+  const m = await requireMember(c)
+  const body = await c.req.json().catch(() => ({}))
+  const currentPassword = String(body.currentPassword || '')
+  const newPassword = String(body.newPassword || '')
+  if (newPassword.length < 8) throw bad('Kata laluan baharu mesti sekurang-kurangnya 8 aksara.')
+  if (newPassword.length > 128) throw bad('Kata laluan terlalu panjang.')
+  const row = await c.env.DB.prepare('SELECT password_hash FROM users WHERE id = ?').bind(m.id).first<any>()
+  if (row?.password_hash && !(await verifyPassword(currentPassword, row.password_hash))) throw bad('Kata laluan semasa tidak betul.')
+  await c.env.DB.prepare('UPDATE users SET password_hash = ? WHERE id = ?').bind(await hashPassword(newPassword), m.id).run()
+  await audit(c.env.DB, m.id, 'password_change', 'user', m.id, null, { changed: true })
+  return c.json({ ok: true })
 })
 
 authRoutes.get('/me', async (c) => {

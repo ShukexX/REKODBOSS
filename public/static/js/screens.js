@@ -7,11 +7,11 @@ import {
 } from './lib.js'
 import {
   useStore, MonthPicker, V2Month, Ring, PayCard, StatusPill, SrcBadge, DocRow, openViewerFn, toast, reload, store,
-} from './ui.js?v=20261029-paste2'
+} from './ui.js?v=20261029-auth1'
 import {
   buildOccurrences, totals, combine, bySource, pendingItems, vehicleStatus, vehicleAlerts,
 } from './domain.js'
-import { DetailSheet, PaySheet, EditSheet, DocsSheet, RefDocsSheet, IncomeSheet, RateSheet, QuickPaySheet, AccessSheet } from './sheets.js?v=20261029-paste2'
+import { DetailSheet, PaySheet, EditSheet, DocsSheet, RefDocsSheet, IncomeSheet, RateSheet, QuickPaySheet, AccessSheet } from './sheets.js?v=20261029-auth1'
 
 export const useOccs = (month) => {
   const d = useStore()
@@ -575,6 +575,11 @@ export function Settings({ month, open, onLogout, go }) {
         <div class="rb-ico" style="background:var(--g7);color:#fff"><${Icon} n="shield" s=${18} /></div>
         <div class="grow"><div class="t1">Akses akaun</div>
           <div class="t2">Ahli, peranan & ruang yang dibenarkan</div></div>
+        <${Icon} n="right" s=${16} /></button>
+      <button class="rb-row" onClick=${() => open('password')}>
+        <div class="rb-ico" style="background:var(--g7);color:#fff"><${Icon} n="shield" s=${18} /></div>
+        <div class="grow"><div class="t1">Kata laluan</div>
+          <div class="t2">Tetapkan atau tukar login e-mel + kata laluan</div></div>
         <${Icon} n="right" s=${16} /></button>
       <button class="rb-row" onClick=${onLogout}>
         <div class="rb-ico" style="color:var(--red);background:var(--red1)"><${Icon} n="logout" s=${18} /></div>

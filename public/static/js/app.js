@@ -4,14 +4,14 @@ import { useState, useEffect, useCallback } from '/static/vendor/hooks.mjs'
 import { html, Icon, api, monthLabel, curMonth, addMonths } from './lib.js'
 import {
   Toaster, toast, Sheet, Viewer, MonthPicker, V2Month, reload, store, useStore,
-} from './ui.js?v=20261029-paste2'
+} from './ui.js?v=20261029-auth1'
 import {
   Dashboard, Payments, IncomeScreen, VehicleScreen, History, Settings, VerifySheet,
-} from './screens.js?v=20261029-paste2'
+} from './screens.js?v=20261029-auth1'
 import {
-  DetailSheet, PaySheet, EditSheet, DocsSheet, RefDocsSheet, IncomeSheet, RateSheet, QuickPaySheet, AccessSheet,
-} from './sheets.js?v=20261029-paste2'
-import { VehicleSheet, VehicleEditSheet, RenewSheet, ServiceSheet, VehPickSheet } from './vehicles.js?v=20261029-paste2'
+  DetailSheet, PaySheet, EditSheet, DocsSheet, RefDocsSheet, IncomeSheet, RateSheet, QuickPaySheet, AccessSheet, PasswordSheet,
+} from './sheets.js?v=20261029-auth1'
+import { VehicleSheet, VehicleEditSheet, RenewSheet, ServiceSheet, VehPickSheet } from './vehicles.js?v=20261029-auth1'
 
 const NAV = [
   ['ringkasan', 'Ringkasan', 'home'],
@@ -24,9 +24,10 @@ const NAV = [
 
 /* ================= LOGIN ================= */
 function Login({ onIn }) {
-  const [step, setStep] = useState('email') // email | code | setup
+  const [step, setStep] = useState('email') // email | code | password | setup
   const [email, setEmail] = useState('')
   const [code, setCode] = useState('')
+  const [password, setPassword] = useState('')
   const [dev, setDev] = useState(null)
   const [err, setErr] = useState('')
   const [busy, setBusy] = useState(false)
@@ -64,6 +65,17 @@ function Login({ onIn }) {
     setBusy(false)
   }
 
+  const loginPassword = async (e) => {
+    e && e.preventDefault()
+    setErr('')
+    if (!/^\S+@\S+\.\S+$/.test(email)) return setErr('Masukkan e-mel yang sah.')
+    if (password.length < 8) return setErr('Kata laluan mesti sekurang-kurangnya 8 aksara.')
+    setBusy(true)
+    try { await api.loginPassword(email, password); await reload(); onIn() }
+    catch (x) { setErr(x.message) }
+    setBusy(false)
+  }
+
   const doSetup = async (e) => {
     e.preventDefault()
     setErr('')
@@ -79,7 +91,7 @@ function Login({ onIn }) {
 
   return html`<div class="v2-login">
     <span class="orb o4"></span><span class="orb o1"></span><span class="orb o2"></span><span class="orb o3"></span>
-    <form class="box" onSubmit=${step === 'setup' ? doSetup : step === 'code' ? verify : sendCode}>
+    <form class="box" onSubmit=${step === 'setup' ? doSetup : step === 'code' ? verify : step === 'password' ? loginPassword : sendCode}>
       <h1>Semua komitmen,<br />satu tempat.</h1>
       <p class="s">Personal & bisnes — Malaysia dan Indonesia. MYR dan IDR dikira berasingan.</p>
 
@@ -101,6 +113,15 @@ function Login({ onIn }) {
         <input class="inp" type="email" autoComplete="username" value=${email}
           onInput=${(e) => setEmail(e.target.value)} placeholder="nama@contoh.com" /></div>`}
 
+      ${step === 'password' && html`<div>
+        <div class="f"><label>E-mel</label>
+          <input class="inp" type="email" autoComplete="username" value=${email}
+            onInput=${(e) => setEmail(e.target.value)} placeholder="nama@contoh.com" /></div>
+        <div class="f"><label>Kata laluan</label>
+          <input class="inp" type="password" autoComplete="current-password" value=${password}
+            onInput=${(e) => setPassword(e.target.value)} placeholder="Minimum 8 aksara" /></div>
+      </div>`}
+
       ${step === 'code' && html`<div>
         <div class="f"><label>Kod 6 digit untuk ${email}</label>
           <input class="inp" inputMode="numeric" maxLength=${6} value=${code} autofocus
@@ -114,10 +135,12 @@ function Login({ onIn }) {
 
       <button class="cta" disabled=${busy}>
         <span class="ar">${busy ? html`<span class="rb-spin" style="border-top-color:#fff"></span>` : html`<${Icon} n=${step === 'code' ? 'check' : 'right'} s=${20} w=${2.4} />`}</span>
-        ${step === 'setup' ? 'Tetapkan akaun' : step === 'code' ? 'Sahkan & masuk' : 'Hantar kod OTP'}
+        ${step === 'setup' ? 'Tetapkan akaun' : step === 'code' ? 'Sahkan & masuk' : step === 'password' ? 'Log masuk' : 'Hantar kod OTP'}
       </button>
 
       ${step === 'code' && html`<button type="button" class="linkbtn" onClick=${sendCode}>Hantar kod baharu / tukar e-mel</button>`}
+      ${step === 'email' && html`<button type="button" class="linkbtn" onClick=${() => { setErr(''); setStep('password') }}>Log masuk dengan kata laluan</button>`}
+      ${step === 'password' && html`<button type="button" class="linkbtn" onClick=${() => { setErr(''); setPassword(''); setStep('email') }}>Guna OTP melalui e-mel</button>`}
       <div class="fine"><${Icon} n="shield" s=${15} style="flex:none;margin-top:1px" />
         Sistem merekod sahaja — tiada pindahan wang dibuat. Login hanya untuk ahli yang dijemput.</div>
       ${status && status.devMode && html`<div class="who">Mod pembangunan · tiada e-mel keluar. Tetapkan RESEND_API_KEY untuk kod sebenar.</div>`}
@@ -204,6 +227,7 @@ function App() {
     ${sheet && sheet.kind === 'service' && html`<${ServiceSheet} v=${sheet.o} onClose=${close} open=${open} />`}
     ${sheet && sheet.kind === 'vehPick' && html`<${VehPickSheet} next=${sheet.o} onClose=${close} open=${open} />`}
     ${sheet && sheet.kind === 'access' && html`<${AccessSheet} onClose=${close} />`}
+    ${sheet && sheet.kind === 'password' && html`<${PasswordSheet} onClose=${close} />`}
     ${sheet && sheet.kind === 'income' && html`<${IncomeSheet} month=${month} onClose=${close} />`}
     ${sheet && sheet.kind === 'incomeRecord' && html`<${PaySheet} o=${sheet.o} onClose=${close} open=${open} />`}
     ${sheet && sheet.kind === 'rate' && html`<${RateSheet} onClose=${close} />`}

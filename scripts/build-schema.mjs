@@ -2,7 +2,9 @@
    sendiri pada runtime pertama. */
 import fs from 'node:fs'
 
-const sql = fs.readFileSync('migrations/0001_init.sql', 'utf8') + '\n' + fs.readFileSync('migrations/0002_add_bank_details.sql', 'utf8')
+const sql = ['0001_init.sql', '0002_add_bank_details.sql', '0003_add_password.sql']
+  .map((file) => fs.readFileSync(`migrations/${file}`, 'utf8'))
+  .join('\n')
 fs.writeFileSync(
   'src/lib/schema.ts',
   '/* DIJANA oleh scripts/build-schema.mjs daripada migrations/*.sql */\n' +

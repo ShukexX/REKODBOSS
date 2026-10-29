@@ -2,6 +2,8 @@ import { getCookie, setCookie, deleteCookie } from 'hono/cookie'
 import type { Context } from 'hono'
 import type { Env, Member } from './db'
 import nodemailer from 'nodemailer'
+import { promisify } from 'node:util'
+import { randomBytes, scrypt as scryptCallback, timingSafeEqual } from 'node:crypto'
 
 const SESSION_COOKIE = 'rb_session'
 // Keep the authenticated device remembered for six months. The session can
@@ -11,6 +13,7 @@ const OTP_TTL_MIN = 10
 const OTP_MAX_ATTEMPTS = 5
 const OTP_RATE_WINDOW_MIN = 15
 const OTP_RATE_MAX = 5
+const scrypt = promisify(scryptCallback)
 
 export const hex = (buf: ArrayBuffer) =>
   [...new Uint8Array(buf)].map((x) => x.toString(16).padStart(2, '0')).join('')
@@ -18,6 +21,22 @@ export const hex = (buf: ArrayBuffer) =>
 export async function sha256Hex(data: string | ArrayBuffer): Promise<string> {
   const buf = typeof data === 'string' ? new TextEncoder().encode(data) : data
   return hex(await crypto.subtle.digest('SHA-256', buf))
+}
+
+/** Kata laluan disimpan menggunakan scrypt + salt unik; plaintext tidak pernah disimpan. */
+export async function hashPassword(password: string): Promise<string> {
+  const salt = randomBytes(16).toString('hex')
+  const derived = await scrypt(password, salt, 64) as Buffer
+  return `scrypt$${salt}$${derived.toString('hex')}`
+}
+
+export async function verifyPassword(password: string, encoded: string | null | undefined): Promise<boolean> {
+  if (!encoded) return false
+  const [scheme, salt, hexKey] = encoded.split('$')
+  if (scheme !== 'scrypt' || !salt || !hexKey || !/^[0-9a-f]+$/i.test(hexKey)) return false
+  const expected = Buffer.from(hexKey, 'hex')
+  const actual = await scrypt(password, salt, expected.length) as Buffer
+  return expected.length === actual.length && timingSafeEqual(expected, actual)
 }
 
 export function randomCode(): string {

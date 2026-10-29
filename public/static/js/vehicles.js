@@ -4,7 +4,7 @@ import { useState } from '/static/vendor/hooks.mjs'
 import {
   html, Icon, fmtMoney, fmtDate, api, todayISO, addMonthsDate, acc, ACCOUNTS, CURRENCIES,
 } from './lib.js'
-import { Sheet, FilePick, toast, reload, useStore } from './ui.js?v=20261029-paste2'
+import { Sheet, FilePick, toast, reload, useStore } from './ui.js?v=20261029-auth1'
 import { vehicleStatus } from './domain.js'
 
 const VK = { roadtax: 'Roadtax', insurance: 'Insurans', service: 'Servis' }

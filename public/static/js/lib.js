@@ -124,6 +124,8 @@ export const api = {
   setup: (body) => req('/auth/setup', { method: 'POST', body }),
   requestOtp: (email) => req('/auth/request-otp', { method: 'POST', body: { email } }),
   verify: (email, code) => req('/auth/verify', { method: 'POST', body: { email, code } }),
+  loginPassword: (email, password) => req('/auth/login-password', { method: 'POST', body: { email, password } }),
+  setPassword: (body) => req('/auth/password', { method: 'POST', body }),
   me: () => req('/auth/me'),
   logout: () => req('/auth/logout', { method: 'POST' }),
   logoutAll: () => req('/auth/logout-all', { method: 'POST' }),
@@ -152,3 +154,4 @@ export const api = {
   renewVehicle: (id, form) => req('/vehicles/' + id + '/renewal', { method: 'POST', body: form }),
   serviceVehicle: (id, form) => req('/vehicles/' + id + '/service', { method: 'POST', body: form }),
 }
+

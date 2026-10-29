@@ -8,8 +8,62 @@ import {
 import {
   Sheet, SrcBadge, SourcePicker, FilePick, DocRow, StatusPill, BankNote, openViewerFn,
   toast, reload, useStore, recipientLine, store,
-} from './ui.js?v=20261029-paste2'
+} from './ui.js?v=20261029-auth1'
 import { buildOccurrences } from './domain.js'
+
+/* ================= KATA LALUAN ================= */
+export function PasswordSheet({ onClose }) {
+  const d = useStore()
+  const [currentPassword, setCurrentPassword] = useState('')
+  const [newPassword, setNewPassword] = useState('')
+  const [confirmPassword, setConfirmPassword] = useState('')
+  const [err, setErr] = useState('')
+  const [busy, setBusy] = useState(false)
+  const save = async () => {
+    setErr('')
+    if (newPassword.length < 8) return setErr('Kata laluan mesti sekurang-kurangnya 8 aksara.')
+    if (newPassword !== confirmPassword) return setErr('Pengesahan kata laluan tidak sama.')
+    setBusy(true)
+    try {
+      await api.setPassword({ currentPassword, newPassword })
+      toast('Kata laluan berjaya disimpan')
+      onClose()
+    } catch (e) { setErr(e.message) }
+    setBusy(false)
+  }
+  return html`<${Sheet} title="Kata laluan" onClose=${onClose}
+    foot=${html`<button class="btn pri" disabled=${busy} onClick=${save}>${busy ? html`<span class="rb-spin"></span>` : html`<${Icon} n="check" s=${16} />} Simpan kata laluan</button>`}>
+    <div class="ac-hero">
+      <div class="ic"><${Icon} n="shield" s=${22} /></div>
+      <div><b>Login OTP dan kata laluan boleh digunakan bersama</b>
+        <span>${d.me?.email || ''} · Kata laluan disimpan secara selamat dan tidak boleh dilihat semula.</span></div>
+    </div>
+    <div class="rb-split">
+      <div class="f"><label>Kata laluan semasa ${d.me?.email ? '' : '(pilihan)'}</label>
+        <input class="inp" type="password" autoComplete="current-password" value=${currentPassword} onInput=${(e) => setCurrentPassword(e.target.value)} placeholder="Kosongkan jika belum pernah ditetapkan" /></div>
+      <div class="f"><label>Kata laluan baharu</label>
+        <input class="inp" type="password" autoComplete="new-password" value=${newPassword} onInput=${(e) => setNewPassword(e.target.value)} placeholder="Minimum 8 aksara" /></div>
+      <div class="f"><label>Ulang kata laluan baharu</label>
+        <input class="inp" type="password" autoComplete="new-password" value=${confirmPassword} onInput=${(e) => setConfirmPassword(e.target.value)} placeholder="Taip semula kata laluan" /></div>
+      ${err && html`<div class="rb-note err">${err}</div>`}
+      <div class="rb-note ok">Selepas disimpan, anda boleh memilih <b>Log masuk dengan kata laluan</b> pada skrin login. OTP masih boleh digunakan bila-bila masa.</div>
+    </div>
+  <//>`
+}
+
+async function pasteClipboardImage(files, setFiles) {
+  if (!navigator.clipboard?.read) throw new Error('Browser tidak membenarkan akses clipboard gambar. Gunakan Ctrl+V pada ruang tampal di Lampiran.')
+  const items = await navigator.clipboard.read()
+  const added = []
+  for (const item of items) {
+    const type = item.types.find((t) => t.startsWith('image/'))
+    if (!type) continue
+    const blob = await item.getType(type)
+    added.push(new File([blob], `tampal-${Date.now()}-${added.length}.${type.split('/')[1] || 'png'}`, { type }))
+  }
+  if (!added.length) throw new Error('Clipboard tidak mengandungi gambar.')
+  setFiles([...(files || []), ...added])
+}
 
 const isPayrollPT = (it) => it.id.startsWith('import-pt-staff-') || (it.category === 'Gaji & bantuan' && it.entity === 'xboss-id')
 const isSplitable = (it) => it.category === 'Gaji & bantuan'
@@ -239,7 +293,9 @@ export function PaySheet({ o, onClose, open }) {
       <button class="btn sec full" onClick=${() => setSplits([...splits, blankSplit(it.currency, date)])}>
         <${Icon} n="plus" s=${18} />Tambah penerima</button>`
       : html`<div class="f"><label>${inc ? 'Bukti terima (pilihan)' : 'Bukti bayaran (wajib)'}</label>
-          <${FilePick} files=${proofs} setFiles=${setProofs} label=${inc ? 'Upload slip / penyata' : 'Upload resit / bukti transfer'} /></div>`}
+          <${FilePick} files=${proofs} setFiles=${setProofs} label=${inc ? 'Upload slip / penyata' : 'Upload resit / bukti transfer'} />
+          <button class="btn sec sm" style="margin-top:8px" onClick=${async () => { try { await pasteClipboardImage(proofs, setProofs) } catch (e) { setErr(e.message) } }}>
+            <${Icon} n="upload" s=${16} />Tampal gambar dari clipboard</button></div>`}
 
     ${err && html`<div class="rb-note err" style="margin-top:12px" role="alert">${err}</div>`}
   <//>`
@@ -391,7 +447,9 @@ export function DocsSheet({ o: o0, kind: k0, onClose, open }) {
     <div style="font-size:13px;color:var(--mut);margin-bottom:10px">${monthLabel(o0.month)} · ${kind === 'invoice'
       ? 'Invoice boleh dimuat naik sebelum bayar.'
       : payment ? 'Tambah bukti untuk bayaran selesai; tarikh bayaran kekal.' : 'Status hanya bertukar selesai melalui Rekod Bayar.'}</div>
-    ${docs.length ? docs.map((x) => html`<${DocRow} key=${x.id} d=${{ ...x, url: '/api/documents/' + x.id + '/file' }} onOpen=${openViewerFn} />`)
+    ${docs.length ? docs.map((x) => { const d = { ...x, url: '/api/documents/' + x.id + '/file' }; return html`<div key=${x.id} style="margin-bottom:8px"><${DocRow} d=${d} onOpen=${openViewerFn} />
+      ${x.mime?.startsWith('image/') && html`<img src=${d.url} alt=${x.name} style="display:block;max-width:100%;max-height:220px;margin:6px auto;border-radius:10px;object-fit:contain" />`}
+      <button class="btn dan sm" style="margin-top:4px" onClick=${async () => { if (!confirm('Padam lampiran ini?')) return; await api.deleteDoc(x.id); await reload(); toast('Lampiran dipadam') }}>Padam gambar</button></div>` })
       : html`<div class="rb-empty" style="padding:22px"><b>Tiada fail</b>Belum ada ${kind === 'invoice' ? 'invoice' : 'bukti'} untuk bulan ini.</div>`}
     <div class="rb-h4">Muat naik</div>
     ${kind === 'receipt' && splits && html`<div class="f"><label>Untuk penerima</label>
