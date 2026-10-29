@@ -1,6 +1,6 @@
 /* Rekod Boss — Kenderaan: roadtax, insurans, servis. */
-import { h } from 'preact'
-import { useState } from 'preact/hooks'
+import { h } from '/static/vendor/preact.mjs'
+import { useState } from '/static/vendor/hooks.mjs'
 import {
   html, Icon, fmtMoney, fmtDate, api, todayISO, addMonthsDate, acc, ACCOUNTS, CURRENCIES,
 } from './lib.js'

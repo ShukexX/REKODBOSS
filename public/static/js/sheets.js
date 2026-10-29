@@ -1,6 +1,6 @@
 /* Rekod Boss — sheet: butiran, rekod bayar, edit, lampiran, duit masuk, kadar, akses. */
-import { h } from 'preact'
-import { useState, useEffect, useMemo } from 'preact/hooks'
+import { h } from '/static/vendor/preact.mjs'
+import { useState, useEffect, useMemo } from '/static/vendor/hooks.mjs'
 import {
   html, Icon, fmtMoney, fmtShort, fmtDate, fmtSize, fmtStamp, STATUS, acc, ACCOUNTS, CURRENCIES,
   PAY_METHODS, CHANNELS, CATEGORIES, INCOME_SOURCES, FREQ, monthLabel, addMonths, api, todayISO, curMonth, REF_DOCS,

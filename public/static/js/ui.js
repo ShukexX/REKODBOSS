@@ -1,6 +1,6 @@
 /* Rekod Boss — komponen UI kongsi (setara prototaip/app/ui.jsx). */
-import { h, Fragment } from 'preact'
-import { useState, useEffect, useRef, useCallback } from 'preact/hooks'
+import { h, Fragment } from '/static/vendor/preact.mjs'
+import { useState, useEffect, useRef, useCallback } from '/static/vendor/hooks.mjs'
 import {
   html, Icon, fmtMoney, fmtShort, fmtDate, fmtSize, fmtStamp, STATUS,
   acc, ACCOUNTS, CURRENCIES, PAY_METHODS, monthLabel, addMonths, api, curMonth, todayISO, FREQ,

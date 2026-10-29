@@ -1,6 +1,6 @@
 /* Rekod Boss — shell aplikasi: login OTP, navigasi, dan pengurusan sheet. */
-import { h, render } from 'preact'
-import { useState, useEffect, useCallback } from 'preact/hooks'
+import { h, render } from '/static/vendor/preact.mjs'
+import { useState, useEffect, useCallback } from '/static/vendor/hooks.mjs'
 import { html, Icon, api, monthLabel, curMonth, addMonths } from './lib.js'
 import {
   Toaster, toast, Sheet, Viewer, MonthPicker, V2Month, reload, store, useStore,

@@ -1,6 +1,6 @@
 /* Rekod Boss — skrin utama: Ringkasan, Bayaran, Duit masuk, Kenderaan, Rekod, Tetapan, Semakan. */
-import { h } from 'preact'
-import { useState, useEffect, useMemo, useRef } from 'preact/hooks'
+import { h } from '/static/vendor/preact.mjs'
+import { useState, useEffect, useMemo, useRef } from '/static/vendor/hooks.mjs'
 import {
   html, Icon, fmtMoney, fmtShort, fmtDate, fmtSize, fmtStamp, STATUS, acc, ACCOUNTS, CURRENCIES,
   CATEGORIES, FREQ, PAY_METHODS, monthLabel, addMonths, api, todayISO, curMonth, daysBetween,
