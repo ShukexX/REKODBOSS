@@ -28,6 +28,9 @@ const env: Env = {
 
 app.use('/static/*', serveStatic({ root: './public' }))
 app.use('/favicon.svg', serveStatic({ root: './public' }))
+app.use('/manifest.webmanifest', serveStatic({ root: './public' }))
+app.use('/sw.js', serveStatic({ root: './public' }))
+app.use('/icons/*', serveStatic({ root: './public' }))
 
 const port = Number(process.env.PORT || 3000)
 const hostname = process.env.HOST || '0.0.0.0'
