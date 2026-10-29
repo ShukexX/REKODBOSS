@@ -10,19 +10,27 @@
 import fs from 'node:fs'
 import path from 'node:path'
 
-const SRC = process.argv[2] || '/home/user/design_handoff/prototaip/source'
+const handoffSource = '/home/user/design_handoff/prototaip/source'
+// Genspark used a Linux handoff path. For local development, fall back to the
+// seed files already checked into this repository.
+const SRC = process.argv[2] || (fs.existsSync(handoffSource) ? handoffSource : path.resolve('src/seed'))
 const OUT = path.resolve('src/seed')
 const DATA = path.join(OUT, 'data')
+const sourceData = fs.existsSync(path.join(SRC, '02_DATA_SEMASA.json')) ? SRC : path.join(SRC, 'data')
+const sourceAttachments = fs.existsSync(path.join(SRC, '05_LAMPIRAN_SEMASA'))
+  ? path.join(SRC, '05_LAMPIRAN_SEMASA')
+  : path.join(sourceData, '05_LAMPIRAN_SEMASA')
+const sourceRefs = fs.existsSync(path.join(SRC, 'ref')) ? path.join(SRC, 'ref') : path.join(OUT, 'ref')
 
 fs.mkdirSync(path.join(DATA, '05_LAMPIRAN_SEMASA'), { recursive: true })
 
 const copy = (rel) => {
   const to = path.join(DATA, rel)
-  fs.copyFileSync(path.join(SRC, rel), to)
+  fs.copyFileSync(path.join(sourceData, rel), to)
   return fs.statSync(to).size
 }
 
-const files = fs.readdirSync(path.join(SRC, '05_LAMPIRAN_SEMASA'))
+const files = fs.readdirSync(sourceAttachments)
 const sizes = {}
 for (const rel of files) sizes['05_LAMPIRAN_SEMASA/' + rel] = copy('05_LAMPIRAN_SEMASA/' + rel)
 copy('02_DATA_SEMASA.json')
@@ -39,7 +47,7 @@ export const ASSET_FILES: Record<string, string> = ` + JSON.stringify(b64) + '\n
 )
 
 // ---- dokumen rujukan (webp dikecilkan, sudah disediakan dalam src/seed/ref)
-const REF = path.join(OUT, 'ref')
+const REF = sourceRefs
 const refB64 = {}
 for (const f of fs.readdirSync(REF)) refB64[f] = fs.readFileSync(path.join(REF, f)).toString('base64')
 fs.writeFileSync(
@@ -49,7 +57,10 @@ export const REFDOC_FILES: Record<string, string> = ` + JSON.stringify(refB64) +
 )
 
 // ---- jadual 03E
-const csv = fs.readFileSync(path.join(SRC, '03E_JADUAL_OKT2026_DIS2027.csv'), 'utf8').replace(/^\uFEFF/, '').trim()
+const schedulePath = fs.existsSync(path.join(SRC, '03E_JADUAL_OKT2026_DIS2027.csv'))
+  ? path.join(SRC, '03E_JADUAL_OKT2026_DIS2027.csv')
+  : path.resolve('scripts/03E_JADUAL_OKT2026_DIS2027.csv')
+const csv = fs.readFileSync(schedulePath, 'utf8').replace(/^\uFEFF/, '').trim()
 const lines = csv.split(/\r?\n/)
 const header = lines[0].split(',')
 const rows = lines.slice(1).map((l) => {
@@ -68,3 +79,4 @@ const total = Object.values(sizes).reduce((a, b) => a + b, 0)
 console.log('bukti bayaran:', files.length, '· bait:', total, '· rujukan:', Object.keys(refB64).length, '· baris jadual:', rows.length)
 console.log('assets.ts', (fs.statSync(path.join(OUT, 'assets.ts')).size / 1024).toFixed(0) + 'KB',
   '· refdocs.ts', (fs.statSync(path.join(OUT, 'refdocs.ts')).size / 1024).toFixed(0) + 'KB')
+

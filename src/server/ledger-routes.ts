@@ -349,7 +349,7 @@ ledgerRoutes.post('/documents', async (c) => {
     const buf = await f.arrayBuffer()
     if (!buf.byteLength) throw bad(`${f.name}: fail kosong.`)
     if (buf.byteLength > MAX_BYTES) throw bad(`${f.name}: melebihi had 10MB.`)
-    const mime = sniffMime(buf)
+    const mime = f.type === 'text/plain' || f.name.toLowerCase().endsWith('.txt') ? 'text/plain' : sniffMime(buf)
     if (!mime) throw bad(`${f.name}: kandungan bukan JPG, PNG, WebP atau PDF.`)
     const id = crypto.randomUUID()
     const storageKey = `documents/${id}`
@@ -534,3 +534,4 @@ ledgerRoutes.get('/refdocs/:file', async (c) => {
     },
   })
 })
+

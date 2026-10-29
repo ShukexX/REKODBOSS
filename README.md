@@ -10,7 +10,7 @@ MYR dan IDR **dikira berasingan**. Gabungan hanya paparan anggaran menggunakan k
 
 | Perkara | Status |
 |---|---|
-| Backend (Hono + Cloudflare D1 + R2) | ✅ Siap |
+| Backend (Node.js + Hono + PostgreSQL) | ✅ Siap |
 | Login e-mel + OTP, senarai ahli tertutup | ✅ Siap |
 | Peranan Pemilik / Pasangan / Lihat sahaja + skop ruang di pelayan | ✅ Siap |
 | Import snapshot (31 item · 4 bayaran · 3 lampiran) idempotent | ✅ Siap |
@@ -18,10 +18,12 @@ MYR dan IDR **dikira berasingan**. Gabungan hanya paparan anggaran menggunakan k
 | 2 kenderaan (Alphard Y5050, Vellfire SYQ5050) | ✅ Siap |
 | 3 PDF bukti bayaran + sahkan SHA-256 | ✅ Lulus |
 | Halaman Semakan Migrasi | ✅ **44/44 lulus** |
-| Deploy ke Cloudflare | ⏳ **Belum** — menunggu pilihan laluan (lihat bawah) |
+| Deploy Node.js + PM2 | ✅ Konfigurasi siap |
 
-### Belum siap / menunggu keputusan Boss
-- **Deploy**: perlu pilih sama ada (A) Genspark-hosted atau (B) akaun Cloudflare sendiri.
+### Konfigurasi Node.js
+- `DATABASE_URL` digunakan untuk PostgreSQL.
+- `SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASSWORD` digunakan oleh Nodemailer.
+- Salin `.env.example` ke `.env`, kemudian jalankan `npm run db:migrate` dan `npm run start`.
 - **E-mel pemilik & isteri**: belum diberikan (seksyen 11 README handoff). App ada skrin persediaan untuk isi.
 - **Pembekal e-mel OTP**: belum dikonfigurasi. Tanpa `RESEND_API_KEY`, kod OTP dipaparkan pada skrin (mod pembangunan sahaja).
 - **UI belum diuji dalam pelayar sebenar** — alat pelayar sandbox gagal dibuka (browser closed) semasa ujian. API, aliran data dan semua aset statik (HTTP 200) sudah diuji.
@@ -59,7 +61,7 @@ src/
 │  ├─ db.ts                  mapper baris→objek, query, audit log
 │  ├─ auth.ts                OTP (SHA-256, 6 digit, 10 min, 5 cubaan), sesi, matriks peranan
 │  ├─ seed.ts                import idempotent + sahkan SHA-256 & magic bytes
-│  ├─ storage.ts             R2 (utama) / jadual document_blobs (sandaran)
+│  ├─ storage.ts             PostgreSQL document_blobs
 │  └─ schema.ts              dijana daripada migrations/0001_init.sql
 ├─ server/
 │  ├─ auth-routes.ts         status/setup/OTP/verify/me/logout/ahli
@@ -79,7 +81,16 @@ public/static/
 migrations/0001_init.sql
 ```
 
-**Teknologi**: Hono 4 · Cloudflare Pages/Workers · D1 (SQLite) · R2 · Preact + htm (tanpa build pelayar, tanpa CDN).
+**Teknologi**: Node.js · Hono 4 · PostgreSQL · Nodemailer · PM2 · Preact + htm (tanpa CDN).
+
+### Menjalankan di server
+
+```bash
+npm ci
+npm run db:migrate
+pm2 start ecosystem.config.cjs
+pm2 save
+```
 
 ---
 
@@ -216,3 +227,4 @@ App ini menggunakan **D1** dan **R2**. Dua laluan tersedia:
 ---
 
 **Kemas kini terakhir**: 29 Okt 2026
+

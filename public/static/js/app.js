@@ -4,14 +4,14 @@ import { useState, useEffect, useCallback } from '/static/vendor/hooks.mjs'
 import { html, Icon, api, monthLabel, curMonth, addMonths } from './lib.js'
 import {
   Toaster, toast, Sheet, Viewer, MonthPicker, V2Month, reload, store, useStore,
-} from './ui.js'
+} from './ui.js?v=20261029-paste2'
 import {
   Dashboard, Payments, IncomeScreen, VehicleScreen, History, Settings, VerifySheet,
-} from './screens.js'
+} from './screens.js?v=20261029-paste2'
 import {
   DetailSheet, PaySheet, EditSheet, DocsSheet, RefDocsSheet, IncomeSheet, RateSheet, QuickPaySheet, AccessSheet,
-} from './sheets.js'
-import { VehicleSheet, VehicleEditSheet, RenewSheet, ServiceSheet, VehPickSheet } from './vehicles.js'
+} from './sheets.js?v=20261029-paste2'
+import { VehicleSheet, VehicleEditSheet, RenewSheet, ServiceSheet, VehPickSheet } from './vehicles.js?v=20261029-paste2'
 
 const NAV = [
   ['ringkasan', 'Ringkasan', 'home'],
@@ -215,3 +215,4 @@ function App() {
 }
 
 render(html`<${App} />`, document.getElementById('root'))
+

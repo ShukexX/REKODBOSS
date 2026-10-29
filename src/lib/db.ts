@@ -2,12 +2,23 @@ import type { Currency, Item, Payment, Payroll, Split, Doc, Vehicle } from './do
 import { PAY_SOURCES, type PaySource } from './constants'
 
 export type Env = {
-  DB: D1Database
-  DOCS: R2Bucket
+  DB: any
+  DATABASE_URL?: string
+  HYPERDRIVE?: { connectionString: string }
+  DOCS?: any
   RESEND_API_KEY?: string
   MAIL_FROM?: string
   OTP_DEV_MODE?: string
+  OTP_DEV_FALLBACK?: string
+  AUTH_DEV_BYPASS?: string
   APP_ORIGIN?: string
+  SMTP_BRIDGE_URL?: string
+  SMTP_HOST?: string
+  SMTP_PORT?: string
+  SMTP_USER?: string
+  SMTP_PASSWORD?: string
+  SMTP_SECURE?: string
+  SMTP_NAME?: string
 }
 
 export type Member = {
@@ -20,12 +31,12 @@ export type Member = {
 }
 
 /* ---------------- meta ---------------- */
-export async function getMeta(db: D1Database, key: string): Promise<string | null> {
+export async function getMeta(db: any, key: string): Promise<string | null> {
   const r = await db.prepare('SELECT value FROM meta WHERE key = ?').bind(key).first<{ value: string }>()
   return r ? r.value : null
 }
 
-export async function setMeta(db: D1Database, key: string, value: string) {
+export async function setMeta(db: any, key: string, value: string) {
   await db.prepare('INSERT INTO meta (key, value) VALUES (?, ?) ON CONFLICT(key) DO UPDATE SET value = excluded.value').bind(key, value).run()
 }
 
@@ -121,17 +132,17 @@ export function rowVehicle(r: any, history: any[] = []): Vehicle {
 }
 
 /* ---------------- queries ---------------- */
-export async function listItems(db: D1Database, spaces: string[]): Promise<Item[]> {
+export async function listItems(db: any, spaces: string[]): Promise<Item[]> {
   const ph = spaces.map(() => '?').join(',')
   const rs = await db.prepare(`SELECT * FROM items WHERE entity IN (${ph}) ORDER BY created_at, id`).bind(...spaces).all()
   return (rs.results || []).map(rowItem)
 }
 
-export async function getItemRow(db: D1Database, id: string) {
+export async function getItemRow(db: any, id: string) {
   return db.prepare('SELECT * FROM items WHERE id = ?').bind(id).first<any>()
 }
 
-export async function listPayments(db: D1Database, spaces: string[]): Promise<Payment[]> {
+export async function listPayments(db: any, spaces: string[]): Promise<Payment[]> {
   if (!spaces.length) return []
   const ph = spaces.map(() => '?').join(',')
   const rs = await db
@@ -166,7 +177,7 @@ export async function listPayments(db: D1Database, spaces: string[]): Promise<Pa
   return rows.map((r) => rowPayment(r, byKey.get((r as any).key) || null))
 }
 
-export async function listDocs(db: D1Database, spaces: string[]): Promise<Doc[]> {
+export async function listDocs(db: any, spaces: string[]): Promise<Doc[]> {
   if (!spaces.length) return []
   const ph = spaces.map(() => '?').join(',')
   const rs = await db
@@ -178,12 +189,12 @@ export async function listDocs(db: D1Database, spaces: string[]): Promise<Doc[]>
   return (rs.results || []).map(rowDoc)
 }
 
-export async function listAllDocs(db: D1Database): Promise<Doc[]> {
+export async function listAllDocs(db: any): Promise<Doc[]> {
   const rs = await db.prepare('SELECT * FROM documents ORDER BY uploaded_at DESC').all()
   return (rs.results || []).map(rowDoc)
 }
 
-export async function listVehicles(db: D1Database, spaces: string[]): Promise<Vehicle[]> {
+export async function listVehicles(db: any, spaces: string[]): Promise<Vehicle[]> {
   if (!spaces.length) return []
   const ph = spaces.map(() => '?').join(',')
   const rs = await db.prepare(`SELECT * FROM vehicles WHERE entity IN (${ph}) AND deleted_at IS NULL ORDER BY created_at`).bind(...spaces).all()
@@ -211,7 +222,7 @@ export async function listVehicles(db: D1Database, spaces: string[]): Promise<Ve
   return vs
 }
 
-export async function listSources(db: D1Database): Promise<PaySource[]> {
+export async function listSources(db: any): Promise<PaySource[]> {
   const rs = await db.prepare('SELECT * FROM pay_sources ORDER BY sort, name').all()
   const custom = (rs.results || []).map((r: any) => ({
     id: r.id,
@@ -226,13 +237,13 @@ export async function listSources(db: D1Database): Promise<PaySource[]> {
   return [...PAY_SOURCES, ...custom]
 }
 
-export async function getRate(db: D1Database): Promise<{ idrPerMyr: number; date: string } | null> {
+export async function getRate(db: any): Promise<{ idrPerMyr: number; date: string } | null> {
   const r = await db.prepare('SELECT * FROM fx_rate LIMIT 1').first<any>()
   if (!r) return null
   return { idrPerMyr: Number(r.idr_per_myr), date: r.set_on }
 }
 
-export async function listMembers(db: D1Database): Promise<Member[]> {
+export async function listMembers(db: any): Promise<Member[]> {
   const rs = await db
     .prepare(`SELECT u.id, u.email, u.name, m.role, m.spaces, m.status FROM users u JOIN memberships m ON m.user_id = u.id ORDER BY CASE m.role WHEN 'owner' THEN 0 WHEN 'partner' THEN 1 ELSE 2 END, u.created_at`)
     .all()
@@ -248,7 +259,7 @@ export async function listMembers(db: D1Database): Promise<Member[]> {
 
 /* ---------------- audit ---------------- */
 export async function audit(
-  db: D1Database,
+  db: any,
   userId: string | null,
   action: string,
   entity: string,
@@ -287,3 +298,4 @@ export async function getFile(env: Env, key: string) {
 export async function hasFile(env: Env, key: string) {
   return (await env.DOCS.head(key)) !== null
 }
+

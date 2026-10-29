@@ -8,7 +8,7 @@ import {
 import {
   Sheet, SrcBadge, SourcePicker, FilePick, DocRow, StatusPill, BankNote, openViewerFn,
   toast, reload, useStore, recipientLine, store,
-} from './ui.js'
+} from './ui.js?v=20261029-paste2'
 import { buildOccurrences } from './domain.js'
 
 const isPayrollPT = (it) => it.id.startsWith('import-pt-staff-') || (it.category === 'Gaji & bantuan' && it.entity === 'xboss-id')
@@ -347,6 +347,7 @@ export function DocsSheet({ o: o0, kind: k0, onClose, open }) {
   const d = useStore()
   const [kind, setKind] = useState(k0 || 'receipt')
   const [files, setFiles] = useState([])
+  const [paste, setPaste] = useState('')
   const [recipient, setRecipient] = useState('')
   const [busy, setBusy] = useState(false)
   const [err, setErr] = useState('')
@@ -362,12 +363,26 @@ export function DocsSheet({ o: o0, kind: k0, onClose, open }) {
       fd.append('kind', kind)
       fd.append('recipient', recipient)
       files.forEach((f) => fd.append('files', f))
+      if (paste.trim()) fd.append('files', new File([paste], `${kind === 'invoice' ? 'invoice' : 'resit'}-${o0.month}.txt`, { type: 'text/plain' }))
       const r = await api.uploadDocs(fd)
       await reload()
       setFiles([])
+      setPaste('')
       toast(r.count + ' fail dimuat naik')
     } catch (e) { setErr(e.message) }
     setBusy(false)
+  }
+  const pasteImage = (e) => {
+    const imgs = Array.from(e.clipboardData?.items || [])
+      .filter((x) => x.kind === 'file' && x.type.startsWith('image/'))
+      .map((x) => x.getAsFile())
+      .filter(Boolean)
+      .map((f, i) => new File([f], `tampal-${Date.now()}-${i}.${f.type.split('/')[1] || 'png'}`, { type: f.type }))
+    if (imgs.length) {
+      e.preventDefault()
+      setFiles([...(files || []), ...imgs])
+      setPaste('')
+    }
   }
   return html`<${Sheet} title=${o0.item.name} onClose=${onClose} onBack=${() => open('detail', o0)}>
     <div class="rb-seg" style="margin-bottom:14px">
@@ -383,8 +398,11 @@ export function DocsSheet({ o: o0, kind: k0, onClose, open }) {
       <select class="inp" value=${recipient} onChange=${(e) => setRecipient(e.target.value)}>
         <option value="">Keseluruhan</option>${splits.map((x) => html`<option key=${x.recipient}>${x.recipient}</option>`)}</select></div>`}
     <${FilePick} files=${files} setFiles=${setFiles} />
+    <div class="f" style="margin-top:12px"><label>Atau tampal gambar / teks invoice atau resit</label>
+      <textarea class="inp" rows="6" value=${paste} onInput=${(e) => setPaste(e.target.value)} onPaste=${pasteImage} placeholder="Tekan Ctrl+V untuk masukkan gambar, atau paste teks di sini..."></textarea>
+      <small style="color:var(--mut)">Gambar yang dicopy akan masuk sebagai fail lampiran. Teks disimpan sebagai .txt.</small></div>
     ${err && html`<div class="rb-note err" style="margin-top:10px" role="alert">${err}</div>`}
-    <button class="btn pri full" style="margin-top:12px" disabled=${!files.length || busy} onClick=${up}>
+    <button class="btn pri full" style="margin-top:12px" disabled=${(!files.length && !paste.trim()) || busy} onClick=${up}>
       ${busy ? html`<span class="rb-spin" style="border-top-color:#fff"></span>` : html`<${Icon} n="upload" s=${18} />`}
       Muat naik ${files.length ? files.length + ' fail' : ''}</button>
   <//>`
@@ -598,3 +616,4 @@ export function AccessSheet({ onClose }) {
     }}><${Icon} n="logout" s=${16} />Log keluar semua peranti</button>
   <//>`
 }
+

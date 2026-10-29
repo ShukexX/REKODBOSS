@@ -8,7 +8,7 @@ export async function putBytes(env: Env, key: string, bytes: ArrayBuffer, mime: 
     await env.DOCS.put(key, bytes, { httpMetadata: { contentType: mime } })
     return
   }
-  await env.DB.prepare('INSERT OR REPLACE INTO document_blobs (id, bytes) VALUES (?, ?)').bind(key, bytes).run()
+  await env.DB.prepare('INSERT INTO document_blobs (id, bytes) VALUES (?, ?) ON CONFLICT(id) DO UPDATE SET bytes = EXCLUDED.bytes').bind(key, bytes).run()
 }
 
 export async function getBytes(env: Env, key: string): Promise<{ bytes: ArrayBuffer; mime?: string } | null> {
@@ -27,3 +27,4 @@ export async function hasBytes(env: Env, key: string): Promise<boolean> {
   const row = await env.DB.prepare('SELECT 1 AS ok FROM document_blobs WHERE id = ?').bind(key).first<any>()
   return !!row
 }
+

@@ -29,11 +29,16 @@ export async function ensureReady(env: Env) {
     ok = false
   }
   if (!ok) {
-    // D1 exec menerima berbilang statement; jalankan satu per satu untuk keselamatan.
-    const stmts = SCHEMA_SQL.split(/;\s*\n/).map((s) => s.trim()).filter(Boolean)
+    // Jalankan satu statement pada satu masa supaya serasi dengan PostgreSQL.
+    // Strip SQL line comments before splitting so comment-only chunks are skipped.
+    const stmts = SCHEMA_SQL
+      .replace(/--[^\r\n]*/g, '')
+      .split(/;\r?\n/)
+      .map((s) => s.trim())
+      .filter(Boolean)
     for (const s of stmts) {
       try {
-        await env.DB.exec(s + ';')
+        await env.DB.exec(s.replace(/\s+/g, ' ').trim() + ';')
       } catch (e: any) {
         if (!/already exists/i.test(e?.message || '')) throw e
       }
@@ -77,3 +82,4 @@ export function checkOrigin(c: Ctx) {
 
 /* ---------- util ---------- */
 export const jsonNum = (v: any) => (v === '' || v == null ? null : Number(v))
+

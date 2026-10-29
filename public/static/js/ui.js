@@ -177,6 +177,7 @@ export function FilePick({ files, setFiles, label = 'Pilih fail', compact }) {
 /* ---------------- baris dokumen + pemapar ---------------- */
 export function DocRow({ d, onOpen, tag }) {
   const pdf = d.mime === 'application/pdf'
+  const text = d.mime === 'text/plain'
   return html`<button class="rb-doc" onClick=${() => onOpen(d)}>
     <div class=${'ft ' + (pdf ? 'pdf' : 'img')}>${pdf ? 'PDF' : (d.mime || '').split('/')[1]?.toUpperCase().slice(0, 4)}</div>
     <div class="grow">
@@ -208,7 +209,7 @@ export function Viewer() {
     </div>
     <div class="vb">${pdf
       ? html`<iframe src=${d.url} title=${d.name}></iframe>`
-      : html`<img src=${d.url} alt=${d.name} />`}</div>
+      : text ? html`<iframe src=${d.url} title=${d.name} style="background:#fff"></iframe>` : html`<img src=${d.url} alt=${d.name} />`}</div>
   </div>`
 }
 export const openViewerFn = (d) => openViewer(d)
@@ -255,3 +256,4 @@ export function PayCard({ o, open }) {
     </div>
   </div>`
 }
+

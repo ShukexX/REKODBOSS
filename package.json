@@ -2,22 +2,28 @@
   "name": "webapp",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "preview": "wrangler pages dev",
-    "deploy": "npm run build && wrangler pages deploy",
-    "cf-typegen": "wrangler types --env-interface CloudflareBindings",
+    "dev": "tsx watch src/server-node.ts",
+    "dev:postgres": "powershell -ExecutionPolicy Bypass -File scripts/start-postgres-dev.ps1",
+    "start": "node dist-server/server-node.js",
+    "start:prod": "npm run build && npm run start",
+    "db:migrate": "node scripts/migrate-postgres.mjs",
+    "build": "node scripts/build-schema.mjs && node scripts/prepare-seed.mjs && vite build --ssr src/server-node.ts --outDir dist-server",
+    "preview": "npm run start",
     "prebuild": "node scripts/build-schema.mjs && node scripts/prepare-seed.mjs"
   },
   "dependencies": {
+    "@hono/node-server": "^2.1.5",
+    "dotenv": "^18.0.9",
     "hono": "^4.13.14",
     "htm": "^3.1.1",
+    "nodemailer": "^10.2.1",
+    "pg": "^8.23.1",
     "preact": "^11.1.0"
   },
   "devDependencies": {
-    "@hono/vite-build": "^1.11.1",
-    "@hono/vite-dev-server": "^0.26.1",
-    "vite": "^8.1.4",
-    "wrangler": "^4.110.0"
+    "@types/node": "^26.6.6",
+    "tsx": "^4.23.15",
+    "vite": "^8.1.4"
   }
 }
+

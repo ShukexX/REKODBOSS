@@ -7,11 +7,11 @@ import {
 } from './lib.js'
 import {
   useStore, MonthPicker, V2Month, Ring, PayCard, StatusPill, SrcBadge, DocRow, openViewerFn, toast, reload, store,
-} from './ui.js'
+} from './ui.js?v=20261029-paste2'
 import {
   buildOccurrences, totals, combine, bySource, pendingItems, vehicleStatus, vehicleAlerts,
 } from './domain.js'
-import { DetailSheet, PaySheet, EditSheet, DocsSheet, RefDocsSheet, IncomeSheet, RateSheet, QuickPaySheet, AccessSheet } from './sheets.js'
+import { DetailSheet, PaySheet, EditSheet, DocsSheet, RefDocsSheet, IncomeSheet, RateSheet, QuickPaySheet, AccessSheet } from './sheets.js?v=20261029-paste2'
 
 export const useOccs = (month) => {
   const d = useStore()
@@ -670,3 +670,4 @@ export function VerifySheet({ onClose }) {
     </div>`}
   <//>`
 }
+

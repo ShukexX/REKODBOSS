@@ -7,12 +7,15 @@ import { vehicleRoutes } from './server/vehicle-routes'
 import { miscRoutes } from './server/misc-routes'
 import { page } from './server/page'
 import { assessReadiness, runVerify, buildVerifyReport } from './server/verify'
+import { getPgDb } from './lib/pg-db'
 
 const app = new Hono<{ Bindings: Env }>()
 
 app.use('*', async (c, next) => {
   const url = new URL(c.req.url)
-  if (url.pathname.startsWith('/api/')) {
+  if (url.pathname.startsWith('/api/') && url.pathname !== '/api/health') {
+    const connectionString = c.env.DATABASE_URL || c.env.HYPERDRIVE?.connectionString
+    if (connectionString) c.env.DB = getPgDb(connectionString)
     await ensureReady(c.env)
     checkOrigin(c)
   }
@@ -37,3 +40,4 @@ app.onError((err, c) => {
 app.notFound((c) => c.json({ error: 'Tidak dijumpai' }, 404))
 
 export default app
+

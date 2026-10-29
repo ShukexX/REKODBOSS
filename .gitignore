@@ -1,5 +1,7 @@
 # prod
 dist/
+dist-server/
+work/
 
 # dev
 .yarn/
@@ -9,6 +11,7 @@ dist/
 
 # deps
 node_modules/
+.npm-cache/
 .wrangler
 
 # env
@@ -33,3 +36,4 @@ src/seed/assets.ts
 src/seed/refdocs.ts
 src/seed/schedule.ts
 src/lib/schema.ts
+

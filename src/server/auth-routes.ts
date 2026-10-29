@@ -10,7 +10,7 @@ import { ensureOwner, ensureInitialized } from '../lib/seed'
 
 export const authRoutes = new Hono<{ Bindings: Env }>()
 
-const devMode = (env: Env) => env.OTP_DEV_MODE === '1' || !env.RESEND_API_KEY
+const devMode = (env: Env) => env.OTP_DEV_MODE === '1' || (!env.RESEND_API_KEY && !env.SMTP_BRIDGE_URL && !env.SMTP_HOST)
 
 /** Status awam: adakah pemilik sudah ditetapkan? */
 authRoutes.get('/status', async (c) => {
@@ -20,7 +20,7 @@ authRoutes.get('/status', async (c) => {
   return c.json({
     needsSetup: !owner || !owner.email,
     devMode: devMode(c.env),
-    provider: c.env.RESEND_API_KEY ? 'resend' : 'none',
+    provider: c.env.SMTP_HOST ? 'smtp' : c.env.SMTP_BRIDGE_URL ? 'smtp-bridge' : c.env.RESEND_API_KEY ? 'resend' : 'none',
   })
 })
 
@@ -68,14 +68,24 @@ authRoutes.post('/request-otp', async (c) => {
   if (member.status === 'disabled') throw bad('Akaun ini tiada akses.')
   const res = await createOtp(c.env, email)
   if ('error' in res) throw bad(res.error)
-  const sent = await sendOtpEmail(c.env, email, res.code)
+  let sent: { sent: boolean; reason: string }
+  try {
+    sent = await sendOtpEmail(c.env, email, res.code)
+  } catch (error: any) {
+    await audit(c.env.DB, member.id, 'otp_request', 'user', member.id, null, { sent: false, reason: 'smtp_error' })
+    console.error('OTP SMTP error:', error?.message || error)
+    if (c.env.OTP_DEV_FALLBACK === '1') {
+      return c.json({ ok: true, sent: false, devCode: res.code, note: 'SMTP ditolak dalam preview lokal — gunakan kod ini untuk ujian.' })
+    }
+    return c.json({ ok: false, sent: false, error: 'E-mel OTP ditolak oleh pelayan SMTP. Sila cuba dari rangkaian/IP yang tidak disenarai hitam.' }, 502)
+  }
   await audit(c.env.DB, member.id, 'otp_request', 'user', member.id, null, { sent: sent.sent })
   return c.json({
     ok: true,
     sent: sent.sent,
     // Kod dipaparkan HANYA apabila tiada pembekal e-mel dikonfigurasi (mod pembangunan).
-    devCode: sent.sent ? undefined : res.code,
-    note: sent.sent ? null : 'Tiada pembekal e-mel dikonfigurasi — kod dipaparkan pada skrin (mod pembangunan).',
+    devCode: sent.sent || !devMode(c.env) ? undefined : res.code,
+    note: sent.sent ? null : devMode(c.env) ? 'Tiada pembekal e-mel dikonfigurasi — kod dipaparkan pada skrin (mod pembangunan).' : 'E-mel OTP gagal dihantar.',
   })
 })
 
@@ -176,3 +186,4 @@ authRoutes.delete('/members/:id', async (c) => {
   await audit(c.env.DB, m.id, 'member_remove', 'user', id, row, null)
   return c.json({ ok: true })
 })
+
