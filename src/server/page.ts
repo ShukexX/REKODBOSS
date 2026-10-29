@@ -8,6 +8,7 @@ export function page(): string {
 <meta name="theme-color" content="#2c1562" />
 <meta name="robots" content="noindex,nofollow" />
 <title>Rekod Boss</title>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml" />
 <link rel="stylesheet" href="/static/styles.css" />
 <link rel="stylesheet" href="/static/styles-v2.css" />
 <link rel="stylesheet" href="/static/app.css" />
