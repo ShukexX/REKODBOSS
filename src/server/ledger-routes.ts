@@ -112,7 +112,7 @@ ledgerRoutes.post('/items', async (c) => {
   await c.env.DB.prepare(
     `INSERT INTO items (id, name, entity, scope, currency, amount, day, start, end_month, frequency, category, type,
                         note, bank_name, bank_account, pay_source, pay_method, vehicle_id, source, created_at, updated_at, created_by)
-     VALUES (?,?,?,?,?,?,?,?,NULL,?,?,?,?,?,?,?,NULL,'app',?,?,?)`
+     VALUES (?,?,?,?,?,?,?,?,NULL,?,?,?,?,?,?,?, ?,NULL,'app',?,?,?)`
   )
     .bind(id, f.name, f.entity, f.scope, f.currency, f.amount, f.day, f.start, f.frequency, f.category, f.type, f.note, f.bankName, f.bankAccount, f.paySource, f.payMethod, at, at, m.id)
     .run()
