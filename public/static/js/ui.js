@@ -79,24 +79,10 @@ export function V2Month({ month, setMonth }) {
   </div>`
 }
 
-/* ---------------- cincin peratus ---------------- */
-let ringId = 0
-export function Ring({ pct, size = 44 }) {
-  const id = 'rbg' + (++ringId % 100000)
-  const r = (size - 6) / 2
-  const c = 2 * Math.PI * r
+/* ---------------- peratus ringkas ---------------- */
+export function Ring({ pct }) {
   const safePct = Math.max(0, Math.min(100, Number(pct) || 0))
-  const labelSize = safePct >= 100 ? 9 : 10
-  return html`<svg class="v2-ring" width=${size} height=${size} viewBox=${`0 0 ${size} ${size}`} aria-label=${safePct + '% selesai'}>
-    <defs><linearGradient id=${id} x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stopColor="#7f57e3" /><stop offset="1" stopColor="#e45bb0" />
-    </linearGradient></defs>
-    <circle cx=${size / 2} cy=${size / 2} r=${r} fill="none" stroke="#efe8fe" strokeWidth="5" />
-    <circle cx=${size / 2} cy=${size / 2} r=${r} fill="none" stroke=${'url(#' + id + ')'} strokeWidth="5"
-      strokeLinecap="round" strokeDasharray=${c} strokeDashoffset=${c * (1 - safePct / 100)}
-      transform=${`rotate(-90 ${size / 2} ${size / 2})`} />
-    <text x=${size / 2} y=${size / 2 + 1} textAnchor="middle" dominantBaseline="middle" fontSize=${labelSize} fontWeight="800" fill="#2c1562">${safePct}%</text>
-  </svg>`
+  return html`<span class="v2-pct" aria-label=${safePct + '% selesai'}>${safePct}%</span>`
 }
 
 /* ---------------- teks & lencana ---------------- */
