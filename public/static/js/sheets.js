@@ -56,6 +56,10 @@ export function DetailSheet({ o: o0, onClose, open }) {
     </div>
 
     <div class="rb-h4">${it.type === 'income' ? 'Pembayar / akaun masuk' : 'Penerima & bank'}</div>
+    ${(it.bankName || it.bankAccount) && html`<div class="rb-bank" style="display:flex;justify-content:space-between;gap:12px;white-space:normal">
+      <div><small style="display:block;color:var(--mut);font-size:12px">Akaun bank</small><b>${it.bankName || 'Bank belum ditetapkan'}</b></div>
+      <div style="text-align:right"><small style="display:block;color:var(--mut);font-size:12px">No. akaun</small><b class="num">${it.bankAccount || '—'}</b></div>
+    </div>`}
     <${BankNote} text=${it.note} />
     ${it.type !== 'income' && html`<div class="rb-h4">Bayar dari</div>
       <div class="rb-bank" style="display:flex;align-items:center;justify-content:space-between;gap:10px;white-space:normal">
@@ -246,9 +250,9 @@ export function EditSheet({ o, onClose, open }) {
   const src = o && o.item
   const preset = o && o.preset
   const [d, setD] = useState(src
-    ? { ...src, amount: src.amount ?? '', day: src.day ?? '', start: src.start ?? '' }
+    ? { ...src, amount: src.amount ?? '', day: src.day ?? '', start: src.start ?? '', bankName: src.bankName || '', bankAccount: src.bankAccount || '' }
     : { name: '', entity: 'personal-my', currency: 'MYR', amount: '', day: '', start: curMonth(), frequency: 'monthly',
-        category: preset === 'income' ? 'Gaji' : 'Lain-lain', type: preset === 'income' ? 'income' : 'expense', note: '', paySource: null, payMethod: '' })
+        category: preset === 'income' ? 'Gaji' : 'Lain-lain', type: preset === 'income' ? 'income' : 'expense', note: '', bankName: '', bankAccount: '', paySource: null, payMethod: '' })
   const [err, setErr] = useState('')
   const [end, setEnd] = useState(curMonth())
   const [confirmDel, setConfirmDel] = useState(false)
@@ -304,8 +308,14 @@ export function EditSheet({ o, onClose, open }) {
       <div class="f"><label>Cara bayaran</label>
         <select class="inp" value=${d.payMethod || ''} onChange=${(e) => s('payMethod', e.target.value || null)}>
           <option value="">— Belum ditetapkan —</option>${PAY_METHODS.map((m) => html`<option key=${m}>${m}</option>`)}</select></div>`}
-    <div class="f"><label>${d.type === 'income' ? 'Catatan (pembayar / akaun masuk)' : 'Catatan penerima / bank'}</label>
-      <textarea class="inp" value=${d.note} onInput=${(e) => s('note', e.target.value)} rows=${4}></textarea></div>
+    <div class="fg">
+      <div class="f"><label>Bank / institusi</label>
+        <input class="inp" value=${d.bankName || ''} onInput=${(e) => s('bankName', e.target.value)} maxLength=${120} placeholder="Contoh: CIMB Bank" /></div>
+      <div class="f"><label>No. akaun</label>
+        <input class="inp num" value=${d.bankAccount || ''} onInput=${(e) => s('bankAccount', e.target.value)} maxLength=${120} placeholder="Contoh: 8001234567" /></div>
+    </div>
+    <div class="f"><label>${d.type === 'income' ? 'Catatan (pembayar / akaun masuk)' : 'Catatan tambahan penerima'}</label>
+      <textarea class="inp" value=${d.note} onInput=${(e) => s('note', e.target.value)} rows=${4} placeholder="Catatan kekal seperti biasa — contoh nama penerima, arahan atau maklumat tambahan"></textarea></div>
     ${d.day > 28 && html`<div class="rb-note" style="font-size:12.5px;margin-bottom:12px">Hari ${d.day} akan dipendekkan ke hari terakhir bagi bulan yang lebih pendek.</div>`}
     ${hasPaid && html`<div class="rb-note" style="font-size:12.5px;margin-bottom:12px">Pindaan hanya mengubah jadual. Bayaran yang sudah selesai kekal dengan amaun dan tarikh asal.</div>`}
     ${err && html`<div class="rb-note err" role="alert">${err}</div>`}

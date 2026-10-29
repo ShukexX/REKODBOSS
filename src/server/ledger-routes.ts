@@ -60,6 +60,8 @@ type ItemPayload = {
   category?: string
   type?: string
   note?: string
+  bankName?: string
+  bankAccount?: string
   paySource?: string | null
   payMethod?: string | null
 }
@@ -88,6 +90,8 @@ function validateItem(d: ItemPayload) {
     amount, day, start, frequency: String(d.frequency), category,
     type: (isInc ? 'income' : 'expense') as 'income' | 'expense',
     note: String(d.note || '').slice(0, 1000),
+    bankName: String(d.bankName || '').trim().slice(0, 120),
+    bankAccount: String(d.bankAccount || '').trim().slice(0, 120),
     paySource: isInc ? null : (d.paySource || null),
     payMethod: isInc ? null : pm,
   }
@@ -107,10 +111,10 @@ ledgerRoutes.post('/items', async (c) => {
   const at = new Date().toISOString()
   await c.env.DB.prepare(
     `INSERT INTO items (id, name, entity, scope, currency, amount, day, start, end_month, frequency, category, type,
-                        note, pay_source, pay_method, vehicle_id, source, created_at, updated_at, created_by)
-     VALUES (?,?,?,?,?,?,?,?,NULL,?,?,?,?,?,?,NULL,'app',?,?,?)`
+                        note, bank_name, bank_account, pay_source, pay_method, vehicle_id, source, created_at, updated_at, created_by)
+     VALUES (?,?,?,?,?,?,?,?,NULL,?,?,?,?,?,?,?,NULL,'app',?,?,?)`
   )
-    .bind(id, f.name, f.entity, f.scope, f.currency, f.amount, f.day, f.start, f.frequency, f.category, f.type, f.note, f.paySource, f.payMethod, at, at, m.id)
+    .bind(id, f.name, f.entity, f.scope, f.currency, f.amount, f.day, f.start, f.frequency, f.category, f.type, f.note, f.bankName, f.bankAccount, f.paySource, f.payMethod, at, at, m.id)
     .run()
   await audit(c.env.DB, m.id, 'item_create', 'item', id, null, f)
   return c.json({ ok: true, id })
@@ -128,9 +132,9 @@ ledgerRoutes.patch('/items/:id', async (c) => {
   const at = new Date().toISOString()
   await c.env.DB.prepare(
     `UPDATE items SET name=?, entity=?, scope=?, currency=?, amount=?, day=?, start=?, frequency=?, category=?, type=?,
-                      note=?, pay_source=?, pay_method=?, updated_at=? WHERE id=?`
+                      note=?, bank_name=?, bank_account=?, pay_source=?, pay_method=?, updated_at=? WHERE id=?`
   )
-    .bind(f.name, f.entity, f.scope, f.currency, f.amount, f.day, f.start, f.frequency, f.category, f.type, f.note, f.paySource, f.payMethod, at, id)
+    .bind(f.name, f.entity, f.scope, f.currency, f.amount, f.day, f.start, f.frequency, f.category, f.type, f.note, f.bankName, f.bankAccount, f.paySource, f.payMethod, at, id)
     .run()
   await audit(c.env.DB, m.id, 'item_update', 'item', id, before, f)
   return c.json({ ok: true })

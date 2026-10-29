@@ -15,6 +15,8 @@ export type Item = {
   category: string
   type: 'expense' | 'income'
   note: string
+  bankName: string
+  bankAccount: string
   paySource: string | null
   payMethod: string | null
   vehicleId: string | null

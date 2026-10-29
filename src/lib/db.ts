@@ -47,6 +47,8 @@ export function rowItem(r: any): Item {
     category: r.category,
     type: r.type,
     note: r.note || '',
+    bankName: r.bank_name || '',
+    bankAccount: r.bank_account || '',
     paySource: r.pay_source,
     payMethod: r.pay_method,
     vehicleId: r.vehicle_id,
