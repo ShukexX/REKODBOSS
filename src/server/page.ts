@@ -14,7 +14,7 @@ export function page(): string {
 <link rel="stylesheet" href="/static/app.css" />
 </head>
 <body>
-<div id="root"><div style="min-height:100vh;display:grid;place-items:center"><span class="rb-spin"></span></div></div>
+<div id="root"></div>
 <script type="importmap">
 { "imports": { "preact": "/static/vendor/preact.mjs", "preact/hooks": "/static/vendor/hooks.mjs" } }
 </script>
