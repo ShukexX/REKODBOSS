@@ -32,7 +32,7 @@ export function PasswordSheet({ onClose }) {
     setBusy(false)
   }
   return html`<${Sheet} title="Kata laluan" onClose=${onClose}
-    foot=${html`<button class="btn pri" disabled=${busy} onClick=${save}>${busy ? html`<span class="rb-spin"></span>` : html`<${Icon} n="check" s=${16} />} Simpan kata laluan</button>`}>
+    foot=${html`<button class="btn pri" disabled=${busy} onClick=${save}>${busy ? html`<span class="rb-spin"></span>` : html`<${Icon} n="check" s=${16} />`} Simpan kata laluan</button>`}>
     <div class="ac-hero">
       <div class="ic"><${Icon} n="shield" s=${22} /></div>
       <div><b>Login OTP dan kata laluan boleh digunakan bersama</b>
@@ -59,7 +59,8 @@ async function pasteClipboardImage(files, setFiles) {
     const type = item.types.find((t) => t.startsWith('image/'))
     if (!type) continue
     const blob = await item.getType(type)
-    added.push(new File([blob], `tampal-${Date.now()}-${added.length}.${type.split('/')[1] || 'png'}`, { type }))
+    const ext = type.split('/')[1] || 'png'
+    added.push(new File([blob], 'tampal-' + Date.now() + '-' + added.length + '.' + ext, { type }))
   }
   if (!added.length) throw new Error('Clipboard tidak mengandungi gambar.')
   setFiles([...(files || []), ...added])

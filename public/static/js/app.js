@@ -10,7 +10,7 @@ import {
 } from './screens.js?v=20261029-deletefix'
 import {
   DetailSheet, PaySheet, EditSheet, DocsSheet, RefDocsSheet, IncomeSheet, RateSheet, QuickPaySheet, AccessSheet, PasswordSheet,
-} from './sheets.js?v=20261029-deletefix'
+} from './sheets.js?v=20261029-deletefix2'
 import { VehicleSheet, VehicleEditSheet, RenewSheet, ServiceSheet, VehPickSheet } from './vehicles.js?v=20261029-deletefix'
 
 const NAV = [
