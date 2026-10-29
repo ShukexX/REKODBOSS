@@ -147,7 +147,7 @@ export async function listPayments(db: any, spaces: string[]): Promise<Payment[]
   const ph = spaces.map(() => '?').join(',')
   const rs = await db
     .prepare(
-      `SELECT p.* FROM payments p JOIN items i ON i.id = p.item_id WHERE i.entity IN (${ph}) ORDER BY p.month DESC, p.date DESC`
+      `SELECT p.* FROM payments p JOIN items i ON i.id = p.item_id WHERE i.entity IN (${ph}) AND i.deleted_at IS NULL ORDER BY p.month DESC, p.date DESC`
     )
     .bind(...spaces)
     .all()
@@ -155,7 +155,7 @@ export async function listPayments(db: any, spaces: string[]): Promise<Payment[]
   if (!rows.length) return []
   const sp = await db
     .prepare(
-      `SELECT s.* FROM payment_splits s JOIN payments p ON p.key = s.payment_key JOIN items i ON i.id = p.item_id WHERE i.entity IN (${ph}) ORDER BY s.payment_key, s.n`
+      `SELECT s.* FROM payment_splits s JOIN payments p ON p.key = s.payment_key JOIN items i ON i.id = p.item_id WHERE i.entity IN (${ph}) AND i.deleted_at IS NULL ORDER BY s.payment_key, s.n`
     )
     .bind(...spaces)
     .all()
@@ -298,4 +298,3 @@ export async function getFile(env: Env, key: string) {
 export async function hasFile(env: Env, key: string) {
   return (await env.DOCS.head(key)) !== null
 }
-
