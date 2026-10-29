@@ -7,11 +7,11 @@ import {
 } from './ui.js?v=20261029-auth1'
 import {
   Dashboard, Payments, IncomeScreen, VehicleScreen, History, Settings, VerifySheet,
-} from './screens.js?v=20261029-auth1'
+} from './screens.js?v=20261029-deletefix'
 import {
   DetailSheet, PaySheet, EditSheet, DocsSheet, RefDocsSheet, IncomeSheet, RateSheet, QuickPaySheet, AccessSheet, PasswordSheet,
-} from './sheets.js?v=20261029-auth1'
-import { VehicleSheet, VehicleEditSheet, RenewSheet, ServiceSheet, VehPickSheet } from './vehicles.js?v=20261029-auth1'
+} from './sheets.js?v=20261029-deletefix'
+import { VehicleSheet, VehicleEditSheet, RenewSheet, ServiceSheet, VehPickSheet } from './vehicles.js?v=20261029-deletefix'
 
 const NAV = [
   ['ringkasan', 'Ringkasan', 'home'],
@@ -239,4 +239,3 @@ function App() {
 }
 
 render(html`<${App} />`, document.getElementById('root'))
-
