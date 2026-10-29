@@ -212,7 +212,9 @@ export function buildOccurrences(opts: {
   for (const p of payments) {
     if (p.month !== month || seen.has(p.key)) continue
     const it = items.find((i) => i.id === p.itemId)
-    if (!it) continue
+    // Bayaran sejarah untuk rekod yang telah dipadam tidak boleh menghidupkan
+    // semula pendapatan/perbelanjaan itu dalam ringkasan bulan.
+    if (!it || it.deleted) continue
     list.push(makeOcc(it, month, p, docMap.get(p.key) || [], today, cm))
   }
   return list

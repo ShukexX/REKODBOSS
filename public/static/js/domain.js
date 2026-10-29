@@ -44,7 +44,8 @@ export function buildOccurrences({ items, payments, docs, month, today, cm }) {
   for (const p of payments) {
     if (p.month !== month || seen.has(p.key)) continue
     const it = items.find((i) => i.id === p.itemId)
-    if (!it) continue
+    // Jangan masukkan bayaran sejarah milik rekod yang telah dipadam.
+    if (!it || it.deleted) continue
     list.push(occ(it, p))
   }
   return list
