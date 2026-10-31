@@ -53,17 +53,18 @@ export function PasswordSheet({ onClose }) {
 
 export function AdvanceSheet({ onClose }) {
   const d = useStore()
-  const [f, setF] = useState({ employeeName: '', entity: 'personal-my', currency: 'MYR', principal: '', issuedDate: todayISO(), startMonth: curMonth(), reason: '', note: '' })
+  const [f, setF] = useState({ employeeId: '', employeeName: '', entity: 'personal-my', currency: 'MYR', principal: '', issuedDate: todayISO(), startMonth: curMonth(), reason: '', note: '' })
+  const known = Array.from(new Map((d.data?.advances || []).map(a => [a.employeeId, a])).values())
   const [err, setErr] = useState(''); const [busy, setBusy] = useState(false)
   const set = (k, v) => setF({ ...f, [k]: v })
   const save = async () => { setErr(''); setBusy(true); try { const r = await fetch('/api/advances', { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(f) }); const x = await r.json(); if (!r.ok) throw new Error(x.error || 'Gagal simpan'); await reload(); toast('Advance pekerja disimpan'); onClose() } catch(e) { setErr(e.message) } setBusy(false) }
   return html`<${Sheet} title="Tambah hutang / advance pekerja" onClose=${onClose} foot=${html`<button class="btn pri" disabled=${busy} onClick=${save}><${Icon} n="check" s=${16} /> Simpan advance</button>`}>
-    <div class="rb-split"><div class="f"><label>Nama pekerja</label><input class="inp" value=${f.employeeName} onInput=${e=>set('employeeName',e.target.value)} placeholder="Contoh: Jumad" /></div>
+    <div class="rb-split"><div class="f"><label>Pekerja (cari nama)</label><input class="inp" list="advance-workers" value=${f.employeeName} onInput=${e=>{ const v=e.target.value; const hit=known.find(a=>a.employeeName.toLowerCase()===v.toLowerCase()); setF({...f, employeeName:v, employeeId:hit?.employeeId||f.employeeId}) }} placeholder="Contoh: Jumad" /><datalist id="advance-workers">${known.map(a=>html`<option value=${a.employeeName}>${a.employeeId}</option>`)}</datalist><small class="muted">ID pekerja: ${f.employeeId || 'akan dicipta automatik'}</small></div>
       <div class="f"><label>Ruang</label><select class="inp" value=${f.entity} onChange=${e=>set('entity',e.target.value)}>${ACCOUNTS.filter(a=>(d.data.spaces||[]).includes(a.id)).map(a=>html`<option value=${a.id}>${a.name}</option>`)}</select></div>
       <div class="f"><label>Mata wang</label><select class="inp" value=${f.currency} onChange=${e=>set('currency',e.target.value)}><option>MYR</option><option>IDR</option></select></div>
       <div class="f"><label>Jumlah advance</label><input class="inp" type="number" min="0" step="0.01" value=${f.principal} onInput=${e=>set('principal',e.target.value)} placeholder="500" /></div>
       <div class="f"><label>Tarikh advance</label><input class="inp" type="date" value=${f.issuedDate} onInput=${e=>set('issuedDate',e.target.value)} /></div>
-      <div class="f"><label>Mula potongan bulan</label><input class="inp" type="month" value=${f.startMonth} onInput=${e=>set('startMonth',e.target.value)} /></div>
+      <div class="f"><label>Gaji bulan mula dipotong</label><input class="inp" type="month" value=${f.startMonth} onInput=${e=>set('startMonth',e.target.value)} /></div>
       <div class="f"><label>Sebab</label><input class="inp" value=${f.reason} onInput=${e=>set('reason',e.target.value)} placeholder="Contoh: kecemasan keluarga" /></div>
       <div class="f"><label>Catatan</label><textarea class="inp" rows="3" value=${f.note} onInput=${e=>set('note',e.target.value)} placeholder="Catatan tambahan"></textarea></div>
       ${err && html`<div class="rb-note err">${err}</div>`}
@@ -706,3 +707,4 @@ export function AccessSheet({ onClose }) {
     }}><${Icon} n="logout" s=${16} />Log keluar semua peranti</button>
   <//>`
 }
+
