@@ -9,7 +9,7 @@ import {
   Dashboard, Payments, IncomeScreen, VehicleScreen, History, Settings, VerifySheet,
 } from './screens.js?v=20261029-deletefix'
 import {
-  DetailSheet, PaySheet, EditSheet, DocsSheet, RefDocsSheet, IncomeSheet, RateSheet, QuickPaySheet, AccessSheet, PasswordSheet,
+  DetailSheet, PaySheet, EditSheet, DocsSheet, RefDocsSheet, IncomeSheet, RateSheet, QuickPaySheet, AccessSheet, PasswordSheet, AdvanceSheet, AdvancesSheet,
 } from './sheets.js?v=20261029-deletefix2'
 import { VehicleSheet, VehicleEditSheet, RenewSheet, ServiceSheet, VehPickSheet } from './vehicles.js?v=20261029-deletefix'
 
@@ -228,6 +228,8 @@ function App() {
     ${sheet && sheet.kind === 'vehPick' && html`<${VehPickSheet} next=${sheet.o} onClose=${close} open=${open} />`}
     ${sheet && sheet.kind === 'access' && html`<${AccessSheet} onClose=${close} />`}
     ${sheet && sheet.kind === 'password' && html`<${PasswordSheet} onClose=${close} />`}
+    ${sheet && sheet.kind === 'advance' && html`<${AdvanceSheet} onClose=${close} />`}
+    ${sheet && sheet.kind === 'advances' && html`<${AdvancesSheet} onClose=${close} />`}
     ${sheet && sheet.kind === 'income' && html`<${IncomeSheet} month=${month} onClose=${close} />`}
     ${sheet && sheet.kind === 'incomeRecord' && html`<${PaySheet} o=${sheet.o} onClose=${close} open=${open} />`}
     ${sheet && sheet.kind === 'rate' && html`<${RateSheet} onClose=${close} />`}

@@ -51,6 +51,37 @@ export function PasswordSheet({ onClose }) {
   <//>`
 }
 
+export function AdvanceSheet({ onClose }) {
+  const d = useStore()
+  const [f, setF] = useState({ employeeName: '', entity: 'personal-my', currency: 'MYR', principal: '', issuedDate: todayISO(), startMonth: curMonth(), reason: '', note: '' })
+  const [err, setErr] = useState(''); const [busy, setBusy] = useState(false)
+  const set = (k, v) => setF({ ...f, [k]: v })
+  const save = async () => { setErr(''); setBusy(true); try { const r = await fetch('/api/advances', { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(f) }); const x = await r.json(); if (!r.ok) throw new Error(x.error || 'Gagal simpan'); await reload(); toast('Advance pekerja disimpan'); onClose() } catch(e) { setErr(e.message) } setBusy(false) }
+  return html`<${Sheet} title="Tambah hutang / advance pekerja" onClose=${onClose} foot=${html`<button class="btn pri" disabled=${busy} onClick=${save}><${Icon} n="check" s=${16} /> Simpan advance</button>`}>
+    <div class="rb-split"><div class="f"><label>Nama pekerja</label><input class="inp" value=${f.employeeName} onInput=${e=>set('employeeName',e.target.value)} placeholder="Contoh: Jumad" /></div>
+      <div class="f"><label>Ruang</label><select class="inp" value=${f.entity} onChange=${e=>set('entity',e.target.value)}>${ACCOUNTS.filter(a=>(d.data.spaces||[]).includes(a.id)).map(a=>html`<option value=${a.id}>${a.name}</option>`)}</select></div>
+      <div class="f"><label>Mata wang</label><select class="inp" value=${f.currency} onChange=${e=>set('currency',e.target.value)}><option>MYR</option><option>IDR</option></select></div>
+      <div class="f"><label>Jumlah advance</label><input class="inp" type="number" min="0" step="0.01" value=${f.principal} onInput=${e=>set('principal',e.target.value)} placeholder="500" /></div>
+      <div class="f"><label>Tarikh advance</label><input class="inp" type="date" value=${f.issuedDate} onInput=${e=>set('issuedDate',e.target.value)} /></div>
+      <div class="f"><label>Mula potongan bulan</label><input class="inp" type="month" value=${f.startMonth} onInput=${e=>set('startMonth',e.target.value)} /></div>
+      <div class="f"><label>Sebab</label><input class="inp" value=${f.reason} onInput=${e=>set('reason',e.target.value)} placeholder="Contoh: kecemasan keluarga" /></div>
+      <div class="f"><label>Catatan</label><textarea class="inp" rows="3" value=${f.note} onInput=${e=>set('note',e.target.value)} placeholder="Catatan tambahan"></textarea></div>
+      ${err && html`<div class="rb-note err">${err}</div>`}
+      <div class="rb-note ok">Jumlah potongan balik direkod kemudian mengikut bulan. Gaji asal tidak diubah.</div>
+    </div><//>`
+}
+
+export function AdvancesSheet({ onClose }) {
+  const d = useStore(); const [month, setMonth] = useState(curMonth()); const [amounts, setAmounts] = useState({}); const [err, setErr] = useState('')
+  const list = (d.data.advances || []).filter(x => x.status !== 'settled')
+  const repay = async (a) => { const amount = Number(amounts[a.id] || 0); if (!(amount > 0)) return setErr('Masukkan jumlah potongan.'); try { const r=await fetch('/api/advances/'+a.id+'/repayments',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({month,date:todayISO(),amount})}); const x=await r.json(); if(!r.ok) throw new Error(x.error||'Gagal simpan'); await reload(); setAmounts({...amounts,[a.id]:''}); setErr('Potongan direkod.') } catch(e){setErr(e.message)} }
+  return html`<${Sheet} title="Hutang / advance pekerja" onClose=${onClose} wide>
+    <div class="rb-note ok">Potongan bulan boleh berbeza. Baki dikira automatik daripada semua history.</div><div class="f"><label>Bulan potongan</label><input class="inp" type="month" value=${month} onInput=${e=>setMonth(e.target.value)} /></div>
+    ${err && html`<div class="rb-note err">${err}</div>`}
+    ${list.length ? html`<div class="rb-card">${list.map(a=>html`<div class="rb-row" key=${a.id}><div class="grow"><div class="t1">${a.employeeName}</div><div class="t2">Advance ${fmtMoney(a.principal,a.currency)} · Baki ${fmtMoney(a.balance,a.currency)} · ${a.reason||'Tiada sebab'}</div><div class="t2">History: ${a.repayments.length ? a.repayments.map(x=>x.month+' '+fmtMoney(x.amount,a.currency)).join(' · ') : 'Belum ada bayaran balik'}</div></div><input class="inp" style="max-width:130px" type="number" placeholder="Potong" value=${amounts[a.id]||''} onInput=${e=>setAmounts({...amounts,[a.id]:e.target.value})} /><button class="btn pri sm" onClick=${()=>repay(a)}>Rekod</button></div>`)}</div>` : html`<div class="rb-empty"><b>Tiada hutang aktif</b>Tambah advance pekerja untuk mula merekod.</div>`}
+  <//>`
+}
+
 async function pasteClipboardImage(files, setFiles) {
   if (!navigator.clipboard?.read) throw new Error('Browser tidak membenarkan akses clipboard gambar. Gunakan Ctrl+V pada ruang tampal di Lampiran.')
   const items = await navigator.clipboard.read()

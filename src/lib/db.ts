@@ -30,6 +30,12 @@ export type Member = {
   status: string
 }
 
+export type EmployeeAdvance = {
+  id: string; employeeName: string; entity: string; currency: string; principal: number
+  issuedDate: string; startMonth: string; reason: string; note: string; status: string
+  repaid: number; balance: number; repayments: { id: string; month: string; amount: number; date: string; note: string }[]
+}
+
 /* ---------------- meta ---------------- */
 export async function getMeta(db: any, key: string): Promise<string | null> {
   const r = await db.prepare('SELECT value FROM meta WHERE key = ?').bind(key).first<{ value: string }>()
@@ -220,6 +226,16 @@ export async function listVehicles(db: any, spaces: string[]): Promise<Vehicle[]
   }
   for (const v of vs) v.history = map.get(v.id) || []
   return vs
+}
+
+export async function listAdvances(db: any, spaces: string[]): Promise<EmployeeAdvance[]> {
+  if (!spaces.length) return []
+  const ph = spaces.map(() => '?').join(',')
+  const rows = await db.prepare(`SELECT * FROM employee_advances WHERE entity IN (${ph}) ORDER BY issued_date DESC, created_at DESC`).bind(...spaces).all()
+  const reps = await db.prepare(`SELECT r.* FROM employee_advance_repayments r JOIN employee_advances a ON a.id=r.advance_id WHERE a.entity IN (${ph}) ORDER BY r.month DESC`).bind(...spaces).all()
+  const by = new Map<string, any[]>()
+  for (const r of reps.results || []) { const x = by.get(r.advance_id) || []; x.push({ id:r.id, month:r.month, amount:Number(r.amount), date:r.date, note:r.note || '' }); by.set(r.advance_id, x) }
+  return (rows.results || []).map((r: any) => { const repayments = by.get(r.id) || []; const repaid = repayments.reduce((n, x) => n + x.amount, 0); return { id:r.id, employeeName:r.employee_name, entity:r.entity, currency:r.currency, principal:Number(r.principal), issuedDate:r.issued_date, startMonth:r.start_month, reason:r.reason || '', note:r.note || '', status: repaid >= Number(r.principal) ? 'settled' : r.status, repaid, balance:Math.max(0, Number(r.principal)-repaid), repayments } })
 }
 
 export async function listSources(db: any): Promise<PaySource[]> {

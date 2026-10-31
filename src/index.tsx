@@ -5,6 +5,7 @@ import { authRoutes } from './server/auth-routes'
 import { ledgerRoutes } from './server/ledger-routes'
 import { vehicleRoutes } from './server/vehicle-routes'
 import { miscRoutes } from './server/misc-routes'
+import { advanceRoutes } from './server/advance-routes'
 import { page } from './server/page'
 import { assessReadiness, runVerify, buildVerifyReport } from './server/verify'
 import { getPgDb } from './lib/pg-db'
@@ -26,6 +27,7 @@ app.route('/api/auth', authRoutes)
 app.route('/api', ledgerRoutes)
 app.route('/api', vehicleRoutes)
 app.route('/api', miscRoutes)
+app.route('/api', advanceRoutes)
 
 app.get('/', (c) => c.html(page()))
 
@@ -40,4 +42,3 @@ app.onError((err, c) => {
 app.notFound((c) => c.json({ error: 'Tidak dijumpai' }, 404))
 
 export default app
-
