@@ -5,7 +5,7 @@ const url = process.env.DATABASE_URL
 if (!url) throw new Error('DATABASE_URL belum ditetapkan.')
 
 const pool = new pg.Pool({ connectionString: url, max: 2 })
-const files = ['migrations/0001_init.sql', 'migrations/0002_add_bank_details.sql', 'migrations/0003_add_password.sql', 'migrations/0004_employee_advances.sql']
+const files = ['migrations/0001_init.sql', 'migrations/0002_add_bank_details.sql', 'migrations/0003_add_password.sql', 'migrations/0004_employee_advances.sql', 'migrations/0005_employee_ids.sql']
 try {
   await pool.query('BEGIN')
   for (const file of files) {
@@ -23,3 +23,4 @@ try {
 } finally {
   await pool.end()
 }
+
