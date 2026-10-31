@@ -382,7 +382,7 @@ export function IncomeScreen({ month, setMonth, open }) {
       <button class="btn pri" onClick=${() => open('income')}><${Icon} n="plus" s=${18} />Rekod duit masuk</button>
       <button class="btn sec" onClick=${() => open('edit', { item: null, preset: 'income' })}><${Icon} n="rec" s=${18} />Berulang</button>
       <button class="btn sec" onClick=${() => open('advances')}><${Icon} n="users" s=${18} />Hutang pekerja</button>
-      <button class="btn sec" onClick=${() => open('advance')}><${Icon} n="plus" s=${18} />Tambah advance</button>
+      <button class="btn sec" onClick=${() => open('advance')}><${Icon} n="plus" s=${18} />Advance gaji</button>
     </div>
     <div class="rb-grp"><span>${monthLabel(month)}</span><span>${occs.length} rekod</span></div>
     ${occs.length ? html`<div class="rb-list">${occs.map((o) => html`<${PayCard} key=${o.key} o=${o} open=${open} />`)}</div>`
@@ -677,3 +677,4 @@ export function VerifySheet({ onClose }) {
     </div>`}
   <//>`
 }
+
