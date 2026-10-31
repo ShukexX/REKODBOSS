@@ -7,10 +7,10 @@ import {
 } from './ui.js?v=20261029-auth1'
 import {
   Dashboard, Payments, IncomeScreen, VehicleScreen, History, Settings, VerifySheet,
-} from './screens.js?v=20261029-deletefix'
+} from './screens.js?v=20261031-advance2'
 import {
   DetailSheet, PaySheet, EditSheet, DocsSheet, RefDocsSheet, IncomeSheet, RateSheet, QuickPaySheet, AccessSheet, PasswordSheet, AdvanceSheet, AdvancesSheet,
-} from './sheets.js?v=20261029-deletefix2'
+} from './sheets.js?v=20261031-advance1'
 import { VehicleSheet, VehicleEditSheet, RenewSheet, ServiceSheet, VehPickSheet } from './vehicles.js?v=20261029-deletefix'
 
 const NAV = [
@@ -241,3 +241,4 @@ function App() {
 }
 
 render(html`<${App} />`, document.getElementById('root'))
+
