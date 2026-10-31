@@ -23,10 +23,11 @@ export function page(): string {
 <script type="importmap">
 { "imports": { "preact": "/static/vendor/preact.mjs", "preact/hooks": "/static/vendor/hooks.mjs" } }
 </script>
-<script type="module" src="/static/js/app.js?v=20261029-deletefix2"></script>
+  <script type="module" src="/static/js/app.js?v=20261031-advance2"></script>
 <script>
 if ('serviceWorker' in navigator) navigator.serviceWorker.register('/sw.js').catch(() => {})
 </script>
 </body>
 </html>`
 }
+
