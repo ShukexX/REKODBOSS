@@ -31,7 +31,7 @@ export type Member = {
 }
 
 export type EmployeeAdvance = {
-  id: string; employeeName: string; entity: string; currency: string; principal: number
+  id: string; employeeId: string; employeeName: string; entity: string; currency: string; principal: number
   issuedDate: string; startMonth: string; reason: string; note: string; status: string
   repaid: number; balance: number; repayments: { id: string; month: string; amount: number; date: string; note: string }[]
 }
@@ -235,7 +235,7 @@ export async function listAdvances(db: any, spaces: string[]): Promise<EmployeeA
   const reps = await db.prepare(`SELECT r.* FROM employee_advance_repayments r JOIN employee_advances a ON a.id=r.advance_id WHERE a.entity IN (${ph}) ORDER BY r.month DESC`).bind(...spaces).all()
   const by = new Map<string, any[]>()
   for (const r of reps.results || []) { const x = by.get(r.advance_id) || []; x.push({ id:r.id, month:r.month, amount:Number(r.amount), date:r.date, note:r.note || '' }); by.set(r.advance_id, x) }
-  return (rows.results || []).map((r: any) => { const repayments = by.get(r.id) || []; const repaid = repayments.reduce((n, x) => n + x.amount, 0); return { id:r.id, employeeName:r.employee_name, entity:r.entity, currency:r.currency, principal:Number(r.principal), issuedDate:r.issued_date, startMonth:r.start_month, reason:r.reason || '', note:r.note || '', status: repaid >= Number(r.principal) ? 'settled' : r.status, repaid, balance:Math.max(0, Number(r.principal)-repaid), repayments } })
+  return (rows.results || []).map((r: any) => { const repayments = by.get(r.id) || []; const repaid = repayments.reduce((n, x) => n + x.amount, 0); return { id:r.id, employeeId:r.employee_id || ('EMP-' + String(r.id).replace('adv-','').toUpperCase()), employeeName:r.employee_name, entity:r.entity, currency:r.currency, principal:Number(r.principal), issuedDate:r.issued_date, startMonth:r.start_month, reason:r.reason || '', note:r.note || '', status: repaid >= Number(r.principal) ? 'settled' : r.status, repaid, balance:Math.max(0, Number(r.principal)-repaid), repayments } })
 }
 
 export async function listSources(db: any): Promise<PaySource[]> {
@@ -314,3 +314,4 @@ export async function getFile(env: Env, key: string) {
 export async function hasFile(env: Env, key: string) {
   return (await env.DOCS.head(key)) !== null
 }
+
